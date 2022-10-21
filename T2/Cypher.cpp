@@ -2,101 +2,91 @@
 
 Cypher::Cypher()
 {
-    this->m_codigo_aluno=NULL;
+    this->codigoAlun=NULL;
     this->m_text=NULL;
 }
 
-void Cypher::CodigoAluno()
+void Cypher::CodigoTexts()
 {
-    this->m_codigo_aluno=NULL;
-    string codigo;
-    cout<<"Insert student number: ";
-    cin>>codigo;
-    this->m_codigo_aluno=new string(codigo);
-    this->m_Tabela.GeraTabela(this->m_codigo_aluno);
+        this->codigoAlun=NULL;
+    string codA;
+    cout<<"Digite o Código do Aluno: ";
+    cin>>codA;
+    this->codigoAlun=new string(codA);
+    this->table.GerTable(this->codigoAlun);
 
-}
-
-void Cypher::Text()
-{
     this->m_text=NULL;
     string text;
     char c;
-    cout<<"Type string or text you want encrypted/decrypted: ";
+    cout<<"Digite o texto a ser encrypted/decrypted: ";
     cin.get(c);
     while(cin.get(c) && c!='\n')
     {
         text+=c;
     }
     this->m_text=new string(text);
-    cout<<"This is my string: "<<*m_text<<endl;
-    cout<<"String size: "<<m_text->size()<<endl;
-
 }
 
 void Cypher::Encrypt()
 {
-    if(this->m_text==NULL || this->m_codigo_aluno==NULL)
+    if(this->m_text==NULL || this->codigoAlun==NULL)
     {
-        cout<<"Please insert a text/student number first."<<endl;
+        cout<<"Insira o texto ou o código do aluno primeiro."<<endl;
         return;
     }
-    this->m_Tabela.EncryptTable(this->m_text);
+    this->table.EncryptTableConversion(this->m_text);
 }
 
 void Cypher::Decrypt()
 {
-    if(this->m_text==NULL || this->m_codigo_aluno==NULL)
+    if(this->m_text==NULL || this->codigoAlun==NULL)
     {
-        cout<<"Please insert a text/student number first."<<endl;
+        cout<<"Insira o texto ou o código do aluno primeiro."<<endl;
         return;
     }
-    this->m_Tabela.DecryptTable(this->m_text);
+    this->table.DecryptTableConversion(this->m_text);
 }
 
 Cypher::~Cypher()
 {
-    cout<<"Worked."<<endl;
-    delete(this->m_codigo_aluno);
+    cout<<"Finalizadow."<<endl;
+    delete(this->codigoAlun);
     delete(this->m_text);
 }
 
-
-ConversionTable::ConversionTable()
-{
+ConversionTable::ConversionTable(){
 
 }
 
-void ConversionTable::GeraTabela(string *codigo_aluno)
+void ConversionTable::GerTable(string *codAluno)
 {
-    if(this->m_TabelaConversao.empty()==false)
+    if(this->tableConversion.empty()==false)
     {
-        this->m_TabelaConversao.clear();
+        this->tableConversion.clear();
     }
     int soma=0;
-    for(size_t i=0;i<codigo_aluno->size();i++)
+    for(size_t i=0;i<codAluno->size();i++)
     {
-        soma=soma+int(codigo_aluno->at(i)-'0');
+        soma=soma+int(codAluno->at(i)-'0');
     }
     for(size_t i=0; i<256; i++)
     {
         pair<char,char> p;
         p.first = i;
         p.second = p.first + soma;
-        this->m_TabelaConversao.push_back(p);
+        this->tableConversion.push_back(p);
     }
 
 }
 
-void ConversionTable::EncryptTable(string *text)
+void ConversionTable::EncryptTableConversion(string *text)
 {
-    cout<<"Foi"<<endl;
     string *result=new string("");
 
     for(size_t i=0;i<text->size();i++)
     {
         char chi=text->at(i);
-        char cho=this->m_TabelaConversao.at(chi).second;
+        char cho=this->tableConversion.at(chi).second;
         *result+=cho;
     }
     *text=*result;
@@ -104,18 +94,18 @@ void ConversionTable::EncryptTable(string *text)
     delete(result);
 }
 
-void ConversionTable::DecryptTable(string *text)
+void ConversionTable::DecryptTableConversion(string *text)
 {
     string *result=new string("");
 
     for(size_t i=0;i<text->size();i++)
     {
         char chi=text->at(i);
-        for(size_t j=0;j<this->m_TabelaConversao.size();j++)
+        for(size_t j=0;j<this->tableConversion.size();j++)
         {
-            if(chi==this->m_TabelaConversao.at(j).second)
+            if(chi==this->tableConversion.at(j).second)
             {
-                *result+=this->m_TabelaConversao.at(j).first;
+                *result+=this->tableConversion.at(j).first;
                 break;
             }
         }

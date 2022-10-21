@@ -1,44 +1,36 @@
-
 #include "Cypher.hpp"
 
 int main()
 {
-    Cypher *cy1=new Cypher();
+    Cypher *cypher=new Cypher();
     while(true)
     {
-        cout<<"-------------------------------------------------"<<endl;
         cout<<"CYPHER"<<endl;
         cout<<"Select an option:"<<endl;
-        cout<<"1. Insert Text"<<endl;
-        cout<<"2. Generate ConversionTable"<<endl;
-        cout<<"3. Encrypt Text"<<endl;
-        cout<<"4. Decrypt Text"<<endl;
-        cout<<"5. Exit"<<endl;
-        cout<<"-------------------------------------------------"<<endl;
+        cout<<"1. Geração da Tabela e digitação do Texto"<<endl;
+        cout<<"2. Encrypt"<<endl;
+        cout<<"3. Decrypt"<<endl;
+        cout<<"4. Finalizar"<<endl;
         cout<<"Option:"<<endl;
 
-        int ch;
-        cin>>ch;
+        int c;
+        cin>>c;
 
-        if(ch==1)
+        if(c==1)
         {
-            cy1->Text();
+            cypher->CodigoTexts();
         }
-        if(ch==2)
+        if(c==2)
         {
-            cy1->CodigoAluno();
+            cypher->Encrypt();
         }
-        if(ch==3)
+        if(c==3)
         {
-            cy1->Encrypt();
+            cypher->Decrypt();
         }
-        if(ch==4)
+        if(c==4)
         {
-            cy1->Decrypt();
-        }
-        if(ch==5)
-        {
-            delete(cy1);
+            delete(cypher);
             break; 
         }
     }

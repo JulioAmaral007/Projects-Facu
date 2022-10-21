@@ -9,31 +9,30 @@ using namespace std;
 class ConversionTable
 {
     private:
-    vector<pair<char, char>> m_TabelaConversao;
+    vector<pai  qr<char, char>> tableConversion;
 
     public:
 
-    //constructors
+
     ConversionTable();
 
-    //setter
-    void GeraTabela(string *codigo_aluno);
-    void EncryptTable(string *text);
-    void DecryptTable(string *text);
+    void EncryptTableConversion(string *text);
+    void GerTable(string *codAluno);
+
+    void DecryptTableConversion(string *text);
 };
 
 
 class Cypher
 {
     private:
-    string *m_codigo_aluno;
+    string *codigoAlun;
     string *m_text;
-    ConversionTable m_Tabela;
+    ConversionTable table;
 
     public:
     Cypher();
-    void CodigoAluno();
-    void Text();
+    void CodigoTexts();
     void Encrypt();
     void Decrypt();
     ~Cypher();
