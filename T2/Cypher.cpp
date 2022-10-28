@@ -10,7 +10,7 @@ void Cypher::CodigoTexts()
 {
         this->codigoAlun=NULL;
     string codA;
-    cout<<"Digite o Código do Aluno: ";
+    cout<<"Digite o Codigo do Aluno: ";
     cin>>codA;
     this->codigoAlun=new string(codA);
     this->table.GerTable(this->codigoAlun);
@@ -31,7 +31,7 @@ void Cypher::Encrypt()
 {
     if(this->m_text==NULL || this->codigoAlun==NULL)
     {
-        cout<<"Insira o texto ou o código do aluno primeiro."<<endl;
+        cout<<"Insira o texto ou o codigo do aluno primeiro."<<endl;
         return;
     }
     this->table.EncryptTableConversion(this->m_text);
@@ -41,7 +41,7 @@ void Cypher::Decrypt()
 {
     if(this->m_text==NULL || this->codigoAlun==NULL)
     {
-        cout<<"Insira o texto ou o código do aluno primeiro."<<endl;
+        cout<<"Insira o texto ou o codigo do aluno primeiro."<<endl;
         return;
     }
     this->table.DecryptTableConversion(this->m_text);
@@ -49,7 +49,7 @@ void Cypher::Decrypt()
 
 Cypher::~Cypher()
 {
-    cout<<"Finalizadow."<<endl;
+    cout<<"Finalizado."<<endl;
     delete(this->codigoAlun);
     delete(this->m_text);
 }
@@ -73,7 +73,7 @@ void ConversionTable::GerTable(string *codAluno)
     {
         pair<char,char> p;
         p.first = i;
-        p.second = p.first + soma;
+        p.second = p.first + soma + soma;
         this->tableConversion.push_back(p);
     }
 

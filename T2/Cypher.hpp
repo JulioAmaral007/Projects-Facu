@@ -9,7 +9,7 @@ using namespace std;
 class ConversionTable
 {
     private:
-    vector<pai  qr<char, char>> tableConversion;
+    vector<pair<char, char>> tableConversion;
 
     public:
 
@@ -32,6 +32,7 @@ class Cypher
 
     public:
     Cypher();
+
     void CodigoTexts();
     void Encrypt();
     void Decrypt();
