@@ -1,6 +1,6 @@
 #include "person.hpp"
 
-int main(int argc, const char* argv[])
+int main(int argc, const char *argv[])
 {
     Person p1;
     Person p2("Antonio");

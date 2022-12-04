@@ -18,16 +18,21 @@ int main()
     //SAccount Acc7(new Client("Pedro","Baterista",6000), 10000);
     Saccount Acc7(&c1);
 
+
     cout << Acc1.GetInformation() << endl;
     cout << Acc2.GetInformation() << endl;
     cout << Acc3.GetInformation() << endl;
     cout << Acc4.GetInformation() << endl;
     cout << Acc5.GetInformation() << endl;
-    cout << Acc6.GetInformation() << endl; //pendente trazer limite
-    cout << Acc7.GetInformation() << endl; //pendente trazer limite
+    cout << Acc6.GetInformation() << endl;
+    cout << Acc7.GetInformation() << endl;
+
+    Acc6.Transfer(5000, Acc3);
+    Acc6.Transfer(5000, Acc7);
+
+
 
     /*
-    Acc1.Saque(200);
     Acc1 -= 500; *
 
     Acc1.Transfer(500, Acc3);

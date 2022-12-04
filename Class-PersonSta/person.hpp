@@ -23,7 +23,6 @@ public:
     ~Person();
 
     void ShowInfo();
-
 };
 
 #endif

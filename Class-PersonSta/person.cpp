@@ -34,4 +34,3 @@ void Person::ShowInfo()
 {
     cout << "Name: " << this->m_name << endl;
 }
-

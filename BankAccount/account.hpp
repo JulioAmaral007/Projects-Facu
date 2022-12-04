@@ -18,7 +18,16 @@ public:
 
     //Acessors methods - gettern and setters
     string GetInformation();
+    float GetBalance() { return m_balance;};
 
+    bool Withdraw(float value);
+    bool operator -=(float value);
+
+    void Deposit(float value);
+    void operator +=(float value);
+
+    bool Transfer(float value, Account &acc);
+    void operator >> (Account &acc);
 };
 
 
