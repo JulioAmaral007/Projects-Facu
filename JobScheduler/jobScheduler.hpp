@@ -10,18 +10,17 @@ using namespace std;
 class JobScheduler
 {
 protected:
-    vector< pair<size_t, string> > m_listOfJobs;
+    vector<pair<size_t, string>> m_listOfJobs;
 
 public:
-    JobScheduler() {};
-    ~JobScheduler() {};
+    JobScheduler(){};
+    ~JobScheduler(){};
 
     void SheduleJob(size_t pid, string description);
-    //ProcessJob()
+    // ProcessJob()
 
     void ListPendingJobs();
     void ProcessJob() { cout << "Nothing to do at this level" << endl; };
-
 };
 
 #endif

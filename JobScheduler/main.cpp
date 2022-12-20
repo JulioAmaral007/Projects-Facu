@@ -1,19 +1,17 @@
- 
+
 #include "jobScheduler.hpp"
 #include "policy1.hpp"
 #include "policy2.hpp"
 
-
 int main()
 {
-    //object
+    // object
     JobScheduler scheduler;
 
-    Policy1* p1 = (Policy1*) &scheduler;
-    Policy2* p2 = (Policy2*) &scheduler;
+    Policy1 *p1 = (Policy1 *)&scheduler;
+    Policy2 *p2 = (Policy2 *)&scheduler;
 
-
-    while(true)
+    while (true)
     {
         cout << "1.Schedule a Job" << endl;
         cout << "2.Process a Job Policy 1 (FIFO)" << endl;
@@ -24,38 +22,37 @@ int main()
         int option;
         cin >> option;
 
-        if(option==1)
+        if (option == 1)
         {
             size_t pid;
             string description;
-            cout << "Enter PID: " ;
+            cout << "Enter PID: ";
             cin >> pid;
             cout << "Enter Description: ";
-            cin >> description; //pendencia: leitura com espacos
+            cin >> description; // pendencia: leitura com espacos
 
             scheduler.SheduleJob(pid, description);
             continue;
         }
-        if(option==2)
+        if (option == 2)
         {
             p1->ProcessJob();
             continue;
         }
-        if(option==3)
+        if (option == 3)
         {
             p2->ProcessJob();
             continue;
         }
-        if(option==4)
+        if (option == 4)
         {
             scheduler.ListPendingJobs();
             continue;
         }
-        if(option==5)
+        if (option == 5)
         {
             break;
         }
-
     }
     return 0;
 };
