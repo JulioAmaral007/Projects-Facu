@@ -1,0 +1,1 @@
+2023-07-01 09:53:30 || 179.124.197.121 -> gersoncamillo.seg.br/34567 || UDP - CLOSE FILTERED

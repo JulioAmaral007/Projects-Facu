@@ -1,0 +1,6 @@
+2023-06-13 22:08:30 || 201.76.2.3 -> noctilucentis.com.br/80 || TCP - OPEN
+2023-06-13 22:08:31 || 201.76.2.3 -> noctilucentis.com.br/2000 || TCP - CLOSE
+2023-06-13 22:08:38 || 201.76.2.3 -> noctilucentis.com.br/4000 || TCP - CLOSE
+2023-06-13 22:08:44 || 201.76.2.3 -> gersoncamillo.seg.br/2000 || UDP - CLOSE FILTERED
+2023-06-13 22:08:50 || 201.76.2.3 -> gersoncamillo.seg.br/23456 || UDP - CLOSE FILTERED
+2023-06-13 22:08:52 || 201.76.2.3 -> gersoncamillo.seg.br/34567 || UDP - OPEN || Resposta ACK.SOQUETINHO.18357.2023-06-14,01:08:52
