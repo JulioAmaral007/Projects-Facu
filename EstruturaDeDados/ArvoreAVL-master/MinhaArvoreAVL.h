@@ -13,7 +13,7 @@ class MinhaArvoreAVL final : public ArvoreBinariaDeBusca<T>
 {
     protected:
 
-    // Rotação 
+    // Rotação e Balanceamemto da árvore
 
     int getRotacao(Nodo<T> *chave) const 
     {
@@ -24,11 +24,11 @@ class MinhaArvoreAVL final : public ArvoreBinariaDeBusca<T>
               if (chave->filhoEsquerda != nullptr)
                  {
                     esquerda = chave->filhoEsquerda->altura;
-                esquerda = this->alturaSubArvore(chave->filhoEsquerda) + 1;
+                esquerda = this->recAltura(chave->filhoEsquerda) + 1;
                  }
               if (chave->filhoDireita != nullptr)
                  {
-                direita = this->alturaSubArvore(chave->filhoDireita) + 1;
+                direita = this->recAltura(chave->filhoDireita) + 1;
                  }
 
             aux = esquerda - direita;
@@ -155,110 +155,106 @@ class MinhaArvoreAVL final : public ArvoreBinariaDeBusca<T>
     }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    int getQuantidade(Nodo<T> *chave) const
-    {
-        if (chave != nullptr)
-        {
-            return (1 + this->getQuantidade(chave->filhoEsquerda) + this->getQuantidade(chave->filhoDireita));
+    void recDestrutor(Nodo<T> *chave) {
+        // Verifica se o nó atual não é nulo.
+        if (chave != nullptr) {
+            // Chama recursivamente o destrutor para a subárvore esquerda.
+            this->recDestrutor(chave->filhoEsquerda);
+            
+            // Chama recursivamente o destrutor para a subárvore direita.
+            this->recDestrutor(chave->filhoDireita);
+            
+            // Libera a memória alocada para o nó atual.
+            delete chave;
         }
+    }
+
+    int recQuantidade(Nodo<T> *nodo) const {
+        // Verifica se o nó atual não é nulo.
+        if (nodo != nullptr) {
+            // Se o nó não for nulo, retorna 1 (para contar o próprio nó) mais a quantidade de nós
+            // na subárvore esquerda e a quantidade de nós na subárvore direita.
+            return (1 + this->recQuantidade(nodo->filhoEsquerda) + this->recQuantidade(nodo->filhoDireita));
+        }
+        // Se o nó for nulo, retorna 0, indicando que não há nós nesta subárvore.
         return 0;
     }
 
-
-    void emOrdemAux(Nodo<T> *chave, ListaEncadeadaAbstrata<T> *listaEmOrdem) const
-    {
-        if (chave != nullptr)
-        {
-            this->emOrdemAux(chave->filhoEsquerda, listaEmOrdem);
-            listaEmOrdem->inserirNoFim(chave->chave);
-            this->emOrdemAux(chave->filhoDireita, listaEmOrdem);
+    Nodo<T> *recContem(T chave, Nodo<T> *nodo) const {
+        // Verifica se a chave do nó atual é igual à chave que estamos procurando.
+        if (nodo->chave == chave) {
+            // Se for igual, encontramos o nó com a chave desejada e retornamos esse nó.
+            return nodo;
         }
-        return;
+        // Entra em um loop enquanto o nó atual não for nulo e a chave não for encontrada.
+        while (nodo && nodo->chave != chave) {
+            // Verifica se a chave que estamos procurando é maior ou menor que a chave do nó atual.
+            if (nodo->chave < chave) {
+                // Se for maior, a chave que estamos procurando deve estar na subárvore direita.
+                // Portanto, movemos para o nó filho direito.
+                nodo = nodo->filhoDireita;
+            } else {
+                // Se for menor ou igual, a chave que estamos procurando deve estar na subárvore esquerda.
+                // Portanto, movemos para o nó filho esquerdo.
+                nodo = nodo->filhoEsquerda;
+            }
+        }
+        
+        // Retornamos o nó encontrado (que pode ser o nó com a chave desejada ou nulo se a chave não for encontrada).
+        return nodo;
     }
 
-    void preOrdemAux(Nodo<T> *chave, ListaEncadeadaAbstrata<T> *listaPreOrdem) const
-    {
-        if (chave != nullptr)
-        {
-            listaPreOrdem->inserirNoFim(chave->chave);
-            this->preOrdemAux(chave->filhoEsquerda, listaPreOrdem);
-            this->preOrdemAux(chave->filhoDireita, listaPreOrdem);
+    int recAltura(Nodo<T> *chave) const {
+        // Inicializa as variáveis para a altura total, altura da subárvore esquerda e altura da subárvore direita.
+        int altura = 0, Esquerda = 0, Direita = 0;
+
+        // Verifica se o nó tem um filho esquerdo.
+        if (chave->filhoEsquerda != nullptr) {
+            // Se tiver um filho esquerdo, calcula a altura da subárvore esquerda de forma recursiva.
+            // Incrementa 1 para contar o próprio nó atual.
+            Esquerda = 1 + recAltura(chave->filhoEsquerda);
         }
-        return;
+
+        // Verifica se o nó tem um filho direito.
+        if (chave->filhoDireita != nullptr) {
+            // Se tiver um filho direito, calcula a altura da subárvore direita de forma recursiva.
+            // Incrementa 1 para contar o próprio nó atual.
+            Direita = 1 + recAltura(chave->filhoDireita);
+        }
+
+        // Calcula a altura total da subárvore como o máximo entre a altura da subárvore esquerda e a altura da subárvore direita.
+        altura = std::max(Esquerda, Direita);
+
+        // Retorna a altura total da subárvore enraizada no nó 'chave'.
+        return altura;
     }
 
-    void posOrdemAux(Nodo<T> *chave, ListaEncadeadaAbstrata<T> *listaPosOrdem) const
-    {
-        if (chave != nullptr)
-        {
-            this->posOrdemAux(chave->filhoEsquerda, listaPosOrdem);
-            this->posOrdemAux(chave->filhoDireita, listaPosOrdem);
-            listaPosOrdem->inserirNoFim(chave->chave);
-        }
-        return;
-    }
+    void recInserir(Nodo<T> *chaveAtual, T novoValor) {
+        Nodo<T> *pai = nullptr;
+        Nodo<T> *atual = chaveAtual;
 
-    
-    void insereNaArvore(Nodo<T> *chaveAtual, T novoValor)
-    {
-        if (this->vazia())
-        {
-            Nodo<T> *novaChave = new Nodo<T>{novoValor, 0};
-
-            delete this->raiz;
-
-            this->raiz = novaChave;
-
-            return;
-        }
-
-        if (novoValor < chaveAtual->chave)
-        {
-            if (chaveAtual->filhoEsquerda == nullptr)
-            {
-                Nodo<T> *novaChave = new Nodo<T>
-                {
-                    novoValor, chaveAtual->altura+1
-                };
-
-                chaveAtual->filhoEsquerda = novaChave;
-            }
-            else
-            {
-                this->insereNaArvore(chaveAtual->filhoEsquerda, novoValor);
+        // Encontra o local de inserção correto.
+        while (atual != nullptr) {
+            pai = atual;
+            if (novoValor < atual->chave) {
+                atual = atual->filhoEsquerda;
+            } else {
+                atual = atual->filhoDireita;
             }
         }
-        else
-        {
-            if (chaveAtual->filhoDireita == nullptr)
-            {
-                Nodo<T> *novaChave = new Nodo<T>{novoValor, chaveAtual->altura+1};
 
-                chaveAtual->filhoDireita = novaChave;
-            }
-            else
-            {
-                this->insereNaArvore(chaveAtual->filhoDireita, novoValor);
-            }
-        }
-        return;
-    }
+        // Cria o novo nó com o novo valor.
+        Nodo<T> *novoNodo = new Nodo<T>{novoValor, pai->altura + 1};
 
-    Nodo<T> *getContem(T chave, Nodo<T> *raiz) const
-    {
-        while (raiz != nullptr && raiz->chave != chave)
-        {
-            if (raiz->chave < chave)
-            {
-                raiz = raiz->filhoDireita;
-            }
-            else
-            {
-                raiz = raiz->filhoEsquerda;
-            }
+        // Insere o novo nó como filho esquerdo ou direito do pai.
+        if (pai == nullptr) {
+            // Se o pai for nulo, a árvore estava vazia, então o novo nó se torna a raiz.
+            chaveAtual = novoNodo;
+        } else if (novoValor < pai->chave) {
+            pai->filhoEsquerda = novoNodo;
+        } else {
+            pai->filhoDireita = novoNodo;
         }
-        return raiz; 
     }
 
     Nodo<T> *getPai(T chave, Nodo<T> *pai) const
@@ -293,39 +289,6 @@ class MinhaArvoreAVL final : public ArvoreBinariaDeBusca<T>
         }
         return pai;
     }
-
-    
-    int alturaSubArvore(Nodo<T> *chave) const
-    {
-        int alturaEsquerda = 0, alturaDireita = 0, altura = 0;
-
-        if (chave->filhoEsquerda != nullptr)
-        {
-            alturaEsquerda = 1 + alturaSubArvore(chave->filhoEsquerda);
-        }
-
-        if (chave->filhoDireita != nullptr)
-        {
-            alturaDireita = 1 + alturaSubArvore(chave->filhoDireita);
-        }
-
-        return checaAltura(alturaEsquerda, alturaDireita, altura);
-    }
-
-    int checaAltura(int Esquerda, int Direita, int altura) const
-    {
-        if (Esquerda >= Direita)
-        {
-            altura = Esquerda;
-            return altura;
-        }
-        else
-        {
-            altura = Direita;
-            return altura;
-        }
-    }
-
     
     T removeDaArvore(T chaveParaRemover, Nodo<T> *chavePai)
     {
@@ -400,17 +363,39 @@ class MinhaArvoreAVL final : public ArvoreBinariaDeBusca<T>
         return false;
     }
 
-
-    void destruirArvore(Nodo<T> *chave)
+    void recEmOrdem(Nodo<T> *chave, ListaEncadeadaAbstrata<T> *lista) const
     {
         if (chave != nullptr)
         {
-            this->destruirArvore(chave->filhoEsquerda);
-            this->destruirArvore(chave->filhoDireita);
-            delete chave;
+            this->recEmOrdem(chave->filhoEsquerda, lista);
+            lista->inserirNoFim(chave->chave);
+            this->recEmOrdem(chave->filhoDireita, lista);
         }
+        return;
     }
-    
+
+    void recPreOrdem(Nodo<T> *chave, ListaEncadeadaAbstrata<T> *lista) const
+    {
+        if (chave != nullptr)
+        {
+            lista->inserirNoFim(chave->chave);
+            this->recPreOrdem(chave->filhoEsquerda, lista);
+            this->recPreOrdem(chave->filhoDireita, lista);
+        }
+        return;
+    }
+
+    void recPosOrdem(Nodo<T> *chave, ListaEncadeadaAbstrata<T> *lista) const
+    {
+        if (chave != nullptr)
+        {
+            this->recPosOrdem(chave->filhoEsquerda, lista);
+            this->recPosOrdem(chave->filhoDireita, lista);
+            lista->inserirNoFim(chave->chave);
+        }
+        return;
+    }
+
     public:
 
     MinhaArvoreAVL(){
@@ -418,74 +403,91 @@ class MinhaArvoreAVL final : public ArvoreBinariaDeBusca<T>
     };
 
     virtual ~MinhaArvoreAVL(){
-        if (this->raiz != nullptr)
-        {
-            this->destruirArvore(this->raiz);
+        if (this->raiz == nullptr) {
+            return;
         }
-        return;
-    };
 
-    bool vazia() const 
+        this->recDestrutor(this->raiz);
+    };  
+
+    /**
+     * @brief Verifica se a arvore esta vazia
+     * @return Verdade se a arvore esta vazia.
+     */
+    virtual bool vazia() const
     {
-        if (this->quantidade() == 0 || this->raiz == nullptr)
-        {
+        if (this->raiz == nullptr)
             return true;
-        }
         return false;
     };
     
- 
-    int quantidade() const 
+    /**
+     * @brief Retornar quantidade de chaves na arvore
+     * @return Numero natural que representa a quantidade de chaves na arvore
+     */
+    int quantidade() const
     {
-        int quantidade = 0;
-
-        quantidade = this->getQuantidade(this->raiz);
-
-        return quantidade;
+        return this->recQuantidade(this->raiz);
     };
     
- 
-    bool contem(T chave) const 
-    {    
-        if (!this->vazia())
-        {
-            Nodo<T> *raiz = this->getContem(chave, this->raiz);
-
-            if (raiz == nullptr)
-            {
-                return false;
-            }
-
-            if (raiz->chave == chave)
-            {
-                return true;
-            }
-
+    /**
+     * @brief Verifica se a arvore contem uma chave
+     * @param chave chave a ser procurada na arvore
+     * @return Verdade se a arvore contem a chave
+     */    
+    virtual bool contem(T chave) const {
+        if(vazia()){
+            return false;
         }
+        
+        Nodo<T> * nodo = this->recContem(chave, this->raiz);
+    
+        if(nodo && nodo->chave == chave){
+            return true;
+        }   
         return false;
     };
     
-    
-    std::optional<int> altura(T chave) const 
-    {
-        if (this->contem(chave))
-        {
-            Nodo<T> *raiz = this->getContem(chave, this->raiz);
-            return this->alturaSubArvore(raiz);
-        }
-        return std::nullopt;
+    /**
+     * @brief Retorna a altura da (sub)arvore
+     * @param chave chave que é raiz da (sub)arvore cuja altura queremos. 
+     * @return Numero inteiro representando a altura da (subarvore). Se chave nao esta na arvore, retorna std::nullopt
+     */
+    virtual std::optional<int> altura(T chave) const {
+        if (!contem(chave))
+            return std::nullopt;
+
+        Nodo<T> *raiz = this->recContem(chave, this->raiz);
+        return this->recAltura(raiz);
     };
-       
-    void inserir(T chave) 
-    {
-        this->insereNaArvore(this->raiz, chave);
+
+    /**
+     * @brief Insere uma chave na arvore
+     * @param chave chave a ser inserida
+     */     
+
+    virtual void inserir(T chave) {
+        if (this->vazia()) {
+            Nodo<T> *novoNodo = new Nodo<T>();
+            novoNodo->chave = chave;
+            novoNodo->altura = 0;
+            delete this->raiz;
+            this->raiz = novoNodo;
+            return;
+        }
+
+        this->recInserir(this->raiz, chave);
+
         Nodo<T> *pai = this->getPai(chave, this->raiz);
+        
         this->balanceiaArvore(pai);
     };
 
-      
-    void remover(T chave)
-    {
+    /**
+     * @brief Remove uma chave da arvore
+     * @param chave chave a removida
+     */        
+    virtual void remover(T chave) {
         Nodo<T> *raiz = this->raiz;
 
         if(raiz->chave == chave && this->verificaFolha(raiz))
@@ -505,68 +507,83 @@ class MinhaArvoreAVL final : public ArvoreBinariaDeBusca<T>
                 this->removeDaArvore(chave, raiz);
                 return;
             }
-            this->removeDaArvore(chave, chavePai);
+            this->removeDaArvore(chave, chavePai);  
             this->balanceiaArvore(chavePai);
         }
     };
 
+    /**
+     * @brief Busca a chave do filho a esquerda de uma (sub)arvore
+     * @param chave chave da arvore que eh pai do filho a esquerda
+     * @return Chave do filho a esquerda. Se chave nao esta na arvore, retorna std::nullopt
+     */
+    virtual std::optional<T> filhoEsquerdaDe(T chave) const {
+        if (!contem(chave))
+            return std::nullopt;
 
-    std::optional<T> filhoEsquerdaDe(T chave) const 
-    {
-        if (this->contem(chave))
+        Nodo<T> *chavePai = this->recContem(chave, this->raiz);
+
+        if (chavePai->filhoEsquerda != nullptr)
         {
-            Nodo<T> *chavePai = this->getContem(chave, this->raiz);
-
-            if (chavePai->filhoEsquerda != nullptr)
-            {
-                return chavePai->filhoEsquerda->chave;
-            }
+            return chavePai->filhoEsquerda->chave;
         }
-        return std::nullopt;
-    };
-       
-    std::optional<T> filhoDireitaDe(T chave) const 
-    {
-        if (this->contem(chave))
-        {
-            Nodo<T> *chavePai = this->getContem(chave, this->raiz);
 
-            if (chavePai->filhoDireita != nullptr)
-            {
-                return chavePai->filhoDireita->chave;
-            }
-        }
         return std::nullopt;
     };
 
-    ListaEncadeadaAbstrata<T>* emOrdem() const 
-    {
-        ListaEncadeadaAbstrata<T> *listaEmOrdem = new MinhaListaEncadeada<T>();
+    /**
+     * @brief Busca a chave do filho a direita de uma (sub)arvore
+     * @param chave chave da arvore que eh pai do filho a direita
+     * @return Chave do filho a direita. Se chave nao esta na arvore, retorna nullptr
+     */        
+    virtual std::optional<T> filhoDireitaDe(T chave) const {
+        if (!contem(chave))
+            return std::nullopt;
 
-        this->emOrdemAux(this->raiz, listaEmOrdem);
+        Nodo<T> *chavePai = this->recContem(chave, this->raiz);
 
-       return listaEmOrdem;
-    
+        if (chavePai->filhoDireita != nullptr)
+        {
+            return chavePai->filhoDireita->chave;
+        }
+        
+        return std::nullopt;
     };
 
-    ListaEncadeadaAbstrata<T>* preOrdem() const 
-    {
-        ListaEncadeadaAbstrata<T> *listaPreOrdem = new MinhaListaEncadeada<T>();
+    /**
+     * @brief Lista chaves visitando a arvore em ordem
+     * @return Lista encadeada contendo as chaves em ordem. 
+     */
+    virtual ListaEncadeadaAbstrata<T>* emOrdem() const {
+        ListaEncadeadaAbstrata<T> *lista = new MinhaListaEncadeada<T>();
 
-        this->preOrdemAux(this->raiz, listaPreOrdem);
+        this->recEmOrdem(this->raiz, lista);
 
-        return listaPreOrdem;
-     
+       return lista;
     };
-    
-    ListaEncadeadaAbstrata<T>* posOrdem() const 
-    {
-        ListaEncadeadaAbstrata<T> *listaPosOrdem = new MinhaListaEncadeada<T>();
 
-        this->posOrdemAux(this->raiz, listaPosOrdem);
+    /**
+     * @brief Lista chaves visitando a arvore em pre-ordem
+     * @return Lista encadeada contendo as chaves em pre-ordem. 
+     */
+    virtual ListaEncadeadaAbstrata<T>* preOrdem() const {
+        ListaEncadeadaAbstrata<T> *lista = new MinhaListaEncadeada<T>();
 
-       return listaPosOrdem;
-      
+        this->recPreOrdem(this->raiz, lista);
+
+        return lista;
+    };
+
+    /**
+     * @brief Lista chaves visitando a arvore em pos-ordem
+     * @return Lista encadeada contendo as chaves em pos ordem. 
+     */
+    virtual ListaEncadeadaAbstrata<T>* posOrdem() const {
+        ListaEncadeadaAbstrata<T> *lista = new MinhaListaEncadeada<T>();
+
+        this->recPosOrdem(this->raiz, lista);
+
+       return lista;
     };
 };
 
