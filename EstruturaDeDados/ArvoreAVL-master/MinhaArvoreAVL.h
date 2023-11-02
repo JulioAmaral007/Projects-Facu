@@ -15,39 +15,29 @@ class MinhaArvoreAVL final : public ArvoreBinariaDeBusca<T>
 
     // Rotação e Balanceamemto da árvore
 
-    int getRotacao(Nodo<T> *chave) const 
-    {
-        int aux = 0, esquerda = 0, direita = 0;
-
-        if (chave != nullptr)
-         {
-              if (chave->filhoEsquerda != nullptr)
-                 {
-                    esquerda = chave->filhoEsquerda->altura;
-                esquerda = this->recAltura(chave->filhoEsquerda) + 1;
-                 }
-              if (chave->filhoDireita != nullptr)
-                 {
-                direita = this->recAltura(chave->filhoDireita) + 1;
-                 }
-
-            aux = esquerda - direita;
-
-            return aux;
+    int rotacao(Nodo<T> *chave) const {
+        if (chave == nullptr) {
+            return 0;
         }
-        return 0;
+
+        int alturaEsquerda = (chave->filhoEsquerda != nullptr) ? recAltura(chave->filhoEsquerda) + 1 : 0;
+        int alturaDireita = (chave->filhoDireita != nullptr) ? recAltura(chave->filhoDireita) + 1 : 0;
+
+        int equilibrio = alturaEsquerda - alturaDireita;
+
+        return equilibrio;
     }
 
     void balanceiaArvore(Nodo<T> *pai)
     {
         if (pai != nullptr)
         {
-            int aux = this->getRotacao(pai);
+            int aux = this->rotacao(pai);
 
             // Rotação Simples a Esquerda
             if (aux < -1)
             {
-                aux = this->getRotacao(pai->filhoDireita);
+                aux = this->rotacao(pai->filhoDireita);
                 if (aux <= 0)
                 {
                     Nodo<T> *avo = this->getPai(pai->chave, this->raiz);
@@ -83,7 +73,7 @@ class MinhaArvoreAVL final : public ArvoreBinariaDeBusca<T>
             // Rotação Simples a Direita
             if (aux > 1)
             {
-                aux = this->getRotacao(pai->filhoEsquerda);
+                aux = this->rotacao(pai->filhoEsquerda);
                 if (aux >= 0)
                 {
                     Nodo<T> *avo = this->getPai(pai->chave, this->raiz);
@@ -124,34 +114,38 @@ class MinhaArvoreAVL final : public ArvoreBinariaDeBusca<T>
         return;
     }
 
-    Nodo<T> *RotacaoDireitaDireita(Nodo<T> *pai) 
-    {
-        Nodo<T> *filho      = pai->filhoEsquerda;
-        pai->filhoEsquerda  = filho->filhoDireita;
-        filho->filhoDireita = pai;
+    Nodo<T> *RotacaoDireitaDireita(Nodo<T> *pai) {
+        Nodo<T> *filhoEsquerda = pai->filhoEsquerda;
+        Nodo<T> *subarvoreDireita = filhoEsquerda->filhoDireita;
 
-        return filho;
+        // Realiza a rotação
+        filhoEsquerda->filhoDireita = pai;
+        pai->filhoEsquerda = subarvoreDireita;
+
+        return filhoEsquerda; // Retorna o novo nó pai
     }
 
-    Nodo<T> *RotacaoEsquerdaEsquerda(Nodo<T> *pai) 
-    {
-        Nodo<T> *filho       = pai->filhoDireita;
-        pai->filhoDireita    = filho->filhoEsquerda;
-        filho->filhoEsquerda = pai;
+    Nodo<T> *RotacaoEsquerdaEsquerda(Nodo<T> *pai) {
+        Nodo<T> *filhoDireita = pai->filhoDireita;
+        Nodo<T> *subarvoreEsquerda = filhoDireita->filhoEsquerda;
 
-        return filho;
+        // Realiza a rotação
+        filhoDireita->filhoEsquerda = pai;
+        pai->filhoDireita = subarvoreEsquerda;
+
+        return filhoDireita; // Retorna o novo nó pai
     }
 
-    Nodo<T> *RotacaoDireitaEsquerda(Nodo<T> *pai) 
-    {
-        pai->filhoDireita = this->RotacaoDireitaDireita(pai->filhoDireita);
-        return this->RotacaoEsquerdaEsquerda(pai);
+    Nodo<T> *RotacaoDireitaEsquerda(Nodo<T> *pai) {
+        // Realiza a rotação à direita seguida de uma rotação à esquerda
+        pai->filhoDireita = RotacaoDireitaDireita(pai->filhoDireita);
+        return RotacaoEsquerdaEsquerda(pai);
     }
 
-     Nodo<T> *RotacaoEsquerdaDireita(Nodo<T> *pai) 
-    {
-        pai->filhoEsquerda = this->RotacaoEsquerdaEsquerda(pai->filhoEsquerda);
-        return this->RotacaoDireitaDireita(pai);
+    Nodo<T> *RotacaoEsquerdaDireita(Nodo<T> *pai) {
+        // Realiza a rotação à esquerda seguida de uma rotação à direita
+        pai->filhoEsquerda = RotacaoEsquerdaEsquerda(pai->filhoEsquerda);
+        return RotacaoDireitaDireita(pai);
     }
 
     Nodo<T> *getPai(T chave, Nodo<T> *pai) const
