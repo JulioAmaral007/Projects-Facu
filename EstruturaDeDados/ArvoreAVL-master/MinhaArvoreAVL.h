@@ -154,6 +154,38 @@ class MinhaArvoreAVL final : public ArvoreBinariaDeBusca<T>
         return this->RotacaoDireitaDireita(pai);
     }
 
+    Nodo<T> *getPai(T chave, Nodo<T> *pai) const
+    {
+        if (pai == nullptr)
+        {
+            return nullptr;
+        }
+
+        if (pai->chave == chave)
+        {
+            return nullptr;
+        }
+
+        if (pai != nullptr && pai->chave != chave)
+        {
+            if (pai->chave < chave)
+            {
+                if (pai->filhoDireita->chave != chave)
+                {
+                    return this->getPai(chave, pai->filhoDireita);
+                }
+            }
+
+            if (pai->chave > chave)
+            {
+                if (pai->filhoEsquerda->chave != chave)
+                {
+                    return this->getPai(chave, pai->filhoEsquerda);
+                }
+            }
+        }
+        return pai;
+    }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
     void recDestrutor(Nodo<T> *chave) {
         // Verifica se o nó atual não é nulo.
@@ -229,14 +261,17 @@ class MinhaArvoreAVL final : public ArvoreBinariaDeBusca<T>
         return altura;
     }
 
-    void recInserir(Nodo<T> *chaveAtual, T novoValor) {
+    Nodo<T> *recInserir(Nodo<T> *chaveAtual, T chave) {
         Nodo<T> *pai = nullptr;
         Nodo<T> *atual = chaveAtual;
 
-        // Encontra o local de inserção correto.
+        // Encontra o local de inserção correto e o nó pai.
         while (atual != nullptr) {
             pai = atual;
-            if (novoValor < atual->chave) {
+            if (chave == atual->chave) {
+                // Valor já existe na árvore.
+                return pai;
+            } else if (chave < atual->chave) {
                 atual = atual->filhoEsquerda;
             } else {
                 atual = atual->filhoDireita;
@@ -244,49 +279,17 @@ class MinhaArvoreAVL final : public ArvoreBinariaDeBusca<T>
         }
 
         // Cria o novo nó com o novo valor.
-        Nodo<T> *novoNodo = new Nodo<T>{novoValor, pai->altura + 1};
+        Nodo<T> *novoNodo = new Nodo<T>{chave, 0}; // Suponha que a altura seja inicializada como 0.
 
-        // Insere o novo nó como filho esquerdo ou direito do pai.
         if (pai == nullptr) {
             // Se o pai for nulo, a árvore estava vazia, então o novo nó se torna a raiz.
             chaveAtual = novoNodo;
-        } else if (novoValor < pai->chave) {
+        } else if (chave < pai->chave) {
             pai->filhoEsquerda = novoNodo;
         } else {
             pai->filhoDireita = novoNodo;
         }
-    }
 
-    Nodo<T> *getPai(T chave, Nodo<T> *pai) const
-    {
-        if (pai == nullptr)
-        {
-            return nullptr;
-        }
-
-        if (pai->chave == chave)
-        {
-            return nullptr;
-        }
-
-        if (pai != nullptr && pai->chave != chave)
-        {
-            if (pai->chave < chave)
-            {
-                if (pai->filhoDireita->chave != chave)
-                {
-                    return this->getPai(chave, pai->filhoDireita);
-                }
-            }
-
-            if (pai->chave > chave)
-            {
-                if (pai->filhoEsquerda->chave != chave)
-                {
-                    return this->getPai(chave, pai->filhoEsquerda);
-                }
-            }
-        }
         return pai;
     }
     
@@ -296,7 +299,7 @@ class MinhaArvoreAVL final : public ArvoreBinariaDeBusca<T>
 
         if (chavePai->chave == chaveParaRemover)
         {
-            if (verificaFolha(chavePai))
+            if (chave->filhoEsquerda == nullptr && chave->filhoDireita == nullptr)
             {
                 T chaveRemovida = chavePai->chave;
 
@@ -311,7 +314,7 @@ class MinhaArvoreAVL final : public ArvoreBinariaDeBusca<T>
         {
             chave = chavePai->filhoEsquerda;
 
-            if (verificaFolha(chave))
+            if (chave->filhoEsquerda == nullptr && chave->filhoDireita == nullptr)
             {
                 T chaveRemovida = chave->chave;
 
@@ -325,7 +328,7 @@ class MinhaArvoreAVL final : public ArvoreBinariaDeBusca<T>
         {
             chave = chavePai->filhoDireita;
 
-            if (verificaFolha(chave))
+            if (chave->filhoEsquerda == nullptr && chave->filhoDireita == nullptr)
             {
                 T chaveRemovida = chave->chave;
 
@@ -476,9 +479,7 @@ class MinhaArvoreAVL final : public ArvoreBinariaDeBusca<T>
             return;
         }
 
-        this->recInserir(this->raiz, chave);
-
-        Nodo<T> *pai = this->getPai(chave, this->raiz);
+        Nodo<T> *pai = this->recInserir(this->raiz, chave);
         
         this->balanceiaArvore(pai);
     };
@@ -488,14 +489,16 @@ class MinhaArvoreAVL final : public ArvoreBinariaDeBusca<T>
      * @param chave chave a removida
      */        
     virtual void remover(T chave) {
+        if (this->vazia()) {
+            return; // Árvore vazia, nada a fazer.
+        }
+
         Nodo<T> *raiz = this->raiz;
 
-        if(raiz->chave == chave && this->verificaFolha(raiz))
+        if(raiz->chave == chave && raiz->filhoEsquerda == nullptr && raiz->filhoDireita == nullptr)
         {
             this->raiz = nullptr;
-
             delete raiz;
-
             return;
         }
 
