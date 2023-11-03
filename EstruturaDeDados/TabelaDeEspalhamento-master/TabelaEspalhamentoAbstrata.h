@@ -1,5 +1,5 @@
-#ifndef TABELA_ESPALHAMENTO_ABSTRATA_H
-#define TABELA_ESPALHAMENTO_ABSTRATA_H
+#ifndef DEC0006_TABELA_ESPALHAMENTO_ABSTRATA_H
+#define DEC0006_TABELA_ESPALHAMENTO_ABSTRATA_H
 
 #include <array>
 // std::array
@@ -19,7 +19,7 @@
  * @tparam T O tipo de dado armazenado na tabela.
  * @tparam _capacidade O tamanho da tabela. Tem que ser maior que 0.
  */
-template<typename T, std::size_t _capacidade>
+template<typename T, std::size_t capac>
 class TabelaEspalhamentoAbstrata
 {
 public:
@@ -77,7 +77,7 @@ protected:
      * @brief A matriz de dados.
      * 
      */
-    std::array<MinhaListaEncadeada<T>, _capacidade> _tabela;
+    std::array<MinhaListaEncadeada<T>, capac> tabela;
 
     /**
      * @brief Obtém a posição correspondente na tabela para o dado.
@@ -88,36 +88,23 @@ protected:
     virtual std::size_t funcaoEspalhamento(T dado) const = 0;
 };
 
-template<typename T, std::size_t _capacidade>
-TabelaEspalhamentoAbstrata<T, _capacidade>::~TabelaEspalhamentoAbstrata() =
+template<typename T, std::size_t capac>
+TabelaEspalhamentoAbstrata<T, capac>::~TabelaEspalhamentoAbstrata() =
     default;
 
-template<typename T, std::size_t _capacidade>
-Posicao TabelaEspalhamentoAbstrata<T, _capacidade>::posicao(T const dado) const
+template<typename T, std::size_t capac>
+Posicao TabelaEspalhamentoAbstrata<T, capac>::posicao(T const dado) const
 {
-    using std::nullopt;
-
     std::size_t const posicaoTabela{funcaoEspalhamento(dado)};
+    MinhaListaEncadeada<T> const& lista{tabela[posicaoTabela]};
+    Posicao posicao{posicaoTabela, lista.tamanho()};
 
-    MinhaListaEncadeada<T> const& lista{_tabela[posicaoTabela]};
-
-    std::size_t const tamanhoLista
+    try
     {
-        static_cast<std::size_t>(lista.tamanho())
-    };
-
-    Posicao posicao{posicaoTabela, tamanhoLista};
-    
-    try{
-        if(size_t const posicaoLista{lista.posicao(dado)}; posicaoLista >= 0)
-            posicao.posicaoLista = static_cast<std::size_t>(posicaoLista);
+        posicao.posicaoLista = lista.posicao(dado);
     }
-    catch(const ExcecaoListaEncadeadaVazia& e){
-            
-    }
-    catch(const ExcecaoDadoInexistente& e){
-            
-    }
+    catch (ExcecaoListaEncadeadaVazia const&) {}
+    catch (ExcecaoDadoInexistente const&) {}
 
     return posicao;
 }

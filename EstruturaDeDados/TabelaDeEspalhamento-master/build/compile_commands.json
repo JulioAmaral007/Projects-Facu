@@ -1,0 +1,8 @@
+[
+{
+  "directory": "C:/Users/jczrp/Área de Trabalho/Softwares/Projects-Facu/EstruturaDeDados/TabelaDeEspalhamento-master/build",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -g -std=gnu++17 -o CMakeFiles\\main.dir\\main.cpp.obj -c \"C:\\Users\\jczrp\\Área de Trabalho\\Softwares\\Projects-Facu\\EstruturaDeDados\\TabelaDeEspalhamento-master\\main.cpp\"",
+  "file": "C:\\Users\\jczrp\\Área de Trabalho\\Softwares\\Projects-Facu\\EstruturaDeDados\\TabelaDeEspalhamento-master\\main.cpp",
+  "output": "CMakeFiles\\main.dir\\main.cpp.obj"
+}
+]
