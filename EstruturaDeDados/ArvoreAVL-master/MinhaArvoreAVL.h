@@ -35,73 +35,13 @@ class MinhaArvoreAVL final : public ArvoreBinariaDeBusca<T>
             int aux = this->rotacao(pai);
 
             // Rotação Simples a Esquerda
-            if (aux < -1)
-            {
-                aux = this->rotacao(pai->filhoDireita);
-                if (aux <= 0)
-                {
-                    Nodo<T> *avo = this->getPai(pai->chave, this->raiz);
-
-                    if (avo == nullptr)
-                    {
-                        this->raiz = this->RotacaoEsquerdaEsquerda(pai);
-                    }
-                    else
-                    {
-                        avo->filhoDireita = this->RotacaoEsquerdaEsquerda(pai);
-                    }
-                    return;
-
-                }
-                else    // Rotação Direita Esquerda
-                {
-                    Nodo<T> *avo = this->getPai(pai->chave, this->raiz);
-
-                    if (avo == nullptr)
-                    {
-                        this->raiz = this->RotacaoDireitaEsquerda(pai);
-                    }
-                    else
-                    {
-                        avo->filhoDireita = this->RotacaoDireitaEsquerda(pai);
-                    }
-
-                    return;
-                }
+            if (aux < -1){
+                RotacaoSimplesEsquerda(aux, pai);
             }
 
             // Rotação Simples a Direita
-            if (aux > 1)
-            {
-                aux = this->rotacao(pai->filhoEsquerda);
-                if (aux >= 0)
-                {
-                    Nodo<T> *avo = this->getPai(pai->chave, this->raiz);
-
-                    if (avo == nullptr)
-                    {
-                        this->raiz = this->RotacaoDireitaDireita(pai);
-                    }
-                    else
-                    {
-                        avo->filhoEsquerda = this->RotacaoDireitaDireita(pai);
-                    }
-                    return;
-                }
-                else    // Rotação Esquerda Direita
-                {   
-                    Nodo<T> *avo = this->getPai(pai->chave, this->raiz);
-
-                    if (avo == nullptr)
-                    {
-                        this->raiz = this->RotacaoEsquerdaDireita(pai);
-                    }
-                    else
-                    {
-                        avo->filhoEsquerda = this->RotacaoEsquerdaDireita(pai);
-                    }
-                    return;
-                }
+            if (aux > 1){
+                RotacaoSimplesDireita(aux, pai);
             }
 
             if (pai->chave == this->raiz->chave)
@@ -109,9 +49,96 @@ class MinhaArvoreAVL final : public ArvoreBinariaDeBusca<T>
                 return;
             }
             
-            return balanceiaArvore(this->getPai(pai->chave, this->raiz));
+            return balanceiaArvore(this->buscarPai(pai->chave, this->raiz));
         }
         return;
+    }
+
+    Nodo<T> *buscarPai(T chave, Nodo<T> *pai) const
+    {
+        if (pai == nullptr || pai->chave == chave)
+        {
+            return nullptr;
+        }
+
+            if (pai->chave < chave)
+            {
+                if (pai->filhoDireita->chave != chave)
+                {
+                    return this->buscarPai(chave, pai->filhoDireita);
+                }
+            }
+
+            if (pai->chave > chave)
+            {
+                if (pai->filhoEsquerda->chave != chave)
+                {
+                    return this->buscarPai(chave, pai->filhoEsquerda);
+                }
+            }
+        
+        return pai;
+    }
+
+    void RotacaoSimplesEsquerda (T aux, Nodo<T> *pai){
+        aux = this->rotacao(pai->filhoDireita);
+        if (aux <= 0)
+        {
+            Nodo<T> *avo = this->buscarPai(pai->chave, this->raiz);
+
+            if (avo == nullptr)
+            {
+                this->raiz = this->RotacaoEsquerdaEsquerda(pai);
+            }
+            else
+            {
+                avo->filhoDireita = this->RotacaoEsquerdaEsquerda(pai);
+            }
+            return;
+
+        }
+        else    // Rotação Direita Esquerda
+        {
+            Nodo<T> *avo = this->buscarPai(pai->chave, this->raiz);
+
+            if (avo == nullptr)
+            {
+                this->raiz = this->RotacaoDireitaEsquerda(pai);
+            }
+            else
+            {
+                avo->filhoDireita = this->RotacaoDireitaEsquerda(pai);
+            }
+
+            return;
+        }
+    }
+
+    void RotacaoSimplesDireita (T aux, Nodo<T> *pai){
+        aux = this->rotacao(pai->filhoEsquerda);
+        if (aux >= 0){
+            Nodo<T> *avo = this->buscarPai(pai->chave, this->raiz);
+
+            if (avo == nullptr){
+                this->raiz = this->RotacaoDireitaDireita(pai);
+            }
+            else{
+                avo->filhoEsquerda = this->RotacaoDireitaDireita(pai);
+            }
+            return;
+        }
+        else    // Rotação Esquerda Direita
+        {   
+            Nodo<T> *avo = this->buscarPai(pai->chave, this->raiz);
+
+            if (avo == nullptr){
+                this->raiz = this->RotacaoEsquerdaDireita(pai);
+            }
+            else{
+                avo->filhoEsquerda = this->RotacaoEsquerdaDireita(pai);
+            }
+            return;
+        }
     }
 
     Nodo<T> *RotacaoDireitaDireita(Nodo<T> *pai) {
@@ -148,39 +175,8 @@ class MinhaArvoreAVL final : public ArvoreBinariaDeBusca<T>
         return RotacaoDireitaDireita(pai);
     }
 
-    Nodo<T> *getPai(T chave, Nodo<T> *pai) const
-    {
-        if (pai == nullptr)
-        {
-            return nullptr;
-        }
-
-        if (pai->chave == chave)
-        {
-            return nullptr;
-        }
-
-        if (pai != nullptr && pai->chave != chave)
-        {
-            if (pai->chave < chave)
-            {
-                if (pai->filhoDireita->chave != chave)
-                {
-                    return this->getPai(chave, pai->filhoDireita);
-                }
-            }
-
-            if (pai->chave > chave)
-            {
-                if (pai->filhoEsquerda->chave != chave)
-                {
-                    return this->getPai(chave, pai->filhoEsquerda);
-                }
-            }
-        }
-        return pai;
-    }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     void recDestrutor(Nodo<T> *chave) {
         // Verifica se o nó atual não é nulo.
         if (chave != nullptr) {
@@ -351,15 +347,6 @@ class MinhaArvoreAVL final : public ArvoreBinariaDeBusca<T>
         return chaveParaRemover;
     }
 
-    bool verificaFolha(Nodo<T> *chave)
-    {
-        if (chave->filhoEsquerda == nullptr && chave->filhoDireita == nullptr)
-        {
-            return true;
-        }
-        return false;
-    }
-
     void recEmOrdem(Nodo<T> *chave, ListaEncadeadaAbstrata<T> *lista) const
     {
         if (chave != nullptr)
@@ -498,7 +485,7 @@ class MinhaArvoreAVL final : public ArvoreBinariaDeBusca<T>
 
         if (this->contem(chave))
         {
-            Nodo<T> *chavePai = this->getPai(chave, raiz);
+            Nodo<T> *chavePai = this->buscarPai(chave, raiz);
             if (chavePai == nullptr)
             {
                 this->removeDaArvore(chave, raiz);
