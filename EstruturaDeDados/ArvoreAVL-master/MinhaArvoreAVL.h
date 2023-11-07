@@ -12,145 +12,117 @@ template <typename T>
 class MinhaArvoreAVL final : public ArvoreBinariaDeBusca<T>
 {
     protected:
-
     // Balanceamemto da árvore
-
-    int atuAltura(Nodo<T> *chave) const {
-        if (chave == nullptr) {
-            return 0;
-        }
-
-        int alturaEsquerda = (chave->filhoEsquerda != nullptr) ? recAltura(chave->filhoEsquerda) + 1 : 0;
-        int alturaDireita = (chave->filhoDireita != nullptr) ? recAltura(chave->filhoDireita) + 1 : 0;
-
-        int equilibrio = alturaEsquerda - alturaDireita;
-
-        return equilibrio;
-    }
-
-    void balanceiaArvore(Nodo<T> *pai)
+    Nodo<T> * ReBalancear(Nodo<T> * nodo)
     {
-        if (pai != nullptr) {
-            int aux = this->atuAltura(pai);
+        if(nodo->filhoEsquerda)
+            nodo->filhoEsquerda = Balancear(nodo->filhoEsquerda);
+                
+        if(nodo->filhoDireita)
+            nodo->filhoDireita = Balancear(nodo->filhoDireita);
+        return nodo;
+    };
 
-            // Rotação Simples a Esquerda
-            if (aux < -1){
-                RotacaoSimplesEsquerda(pai);
-            }
-
-            // Rotação Simples a Direita
-            if (aux > 1){
-                RotacaoSimplesDireita(pai);
-            }
-
-            if (pai->chave == this->raiz->chave)
-            {
-                return;
-            }
-            
-            return balanceiaArvore(this->buscarPai(pai->chave, this->raiz));
-        }
-        return;
-    }
-
-    Nodo<T> *buscarPai(T chave, Nodo<T> *pai) const
-    {
-        if (pai == nullptr || pai->chave == chave){
+    Nodo<T>* Balancear(Nodo<T>* nodoPai) {
+        if (!nodoPai)
             return nullptr;
+
+        int b = B(nodoPai);
+
+        if (b < -1) {
+            if (B(nodoPai->filhoDireita) <= 0)
+                return RotacaoSimplesEsquerda(nodoPai);
+            else
+                return RotacaoDireitaEsquerda(nodoPai);
         }
-
-            if (pai->chave < chave){
-                if (pai->filhoDireita->chave != chave) {
-                    return this->buscarPai(chave, pai->filhoDireita);
-                }
-            }
-
-            if (pai->chave > chave){
-                if (pai->filhoEsquerda->chave != chave) {
-                    return this->buscarPai(chave, pai->filhoEsquerda);
-                }
-            }
         
-        return pai;
-    }
-
-    void RotacaoSimplesEsquerda (Nodo<T> *pai){
-        if (pai == nullptr || pai->filhoDireita == nullptr)
-            return;
-
-        Nodo<T> *nodo = buscarPai(pai->chave, this->raiz);
-        Nodo<T> *nova_raiz = nullptr;
-
-        if (atuAltura(pai->filhoDireita) <= 0) {
-            nova_raiz = RotacaoEsquerdaEsquerda(pai);
-        } else {
-            nova_raiz = RotacaoDireitaEsquerda(pai);
+        if (b > 1) {
+            if (B(nodoPai->filhoEsquerda) >= 0)
+                return RotacaoSimplesDireita(nodoPai);
+            else
+                return RotacaoEsquerdaDireita(nodoPai);
         }
+        
+        if (nodoPai->chave == this->raiz->chave)
+            return nodoPai;
 
-        if (nodo == nullptr) {
-            this->raiz = nova_raiz;
-        } else if (nodo->filhoEsquerda == pai) {
-            nodo->filhoEsquerda = nova_raiz;
-        } else {
-            nodo->filhoDireita = nova_raiz;
+        return nodoPai;
+    }
+
+
+    Nodo<T> * RotacaoSimplesEsquerda(Nodo<T> * A)
+    {
+        Nodo<T> * C = A->filhoDireita;
+        Nodo<T> * D = C->filhoEsquerda;
+        C->filhoEsquerda = A;
+        A->filhoDireita = D;
+        return C;
+    };
+
+    Nodo<T> * RotacaoSimplesDireita(Nodo<T> * A)
+    {
+        Nodo<T> * B = A->filhoEsquerda;
+        Nodo<T> * E = B->filhoDireita;
+        B->filhoDireita = A;
+        A->filhoEsquerda = E;
+        return B;
+    };
+
+    Nodo<T> * RotacaoEsquerdaDireita(Nodo<T> * A)
+    {
+        A->filhoEsquerda = RotacaoSimplesEsquerda(A->filhoEsquerda);
+        return RotacaoSimplesDireita(A);
+    };
+
+    Nodo<T> * RotacaoDireitaEsquerda(Nodo<T> * A)
+    {
+        A->filhoDireita = RotacaoSimplesDireita(A->filhoDireita);
+        return RotacaoSimplesEsquerda(A);
+    };  
+
+    ///////////////////////////////////////////////////////////////////////
+    //Fator B
+    int B(Nodo<T> * nodo) const
+    {
+        if(nodo)
+            return (this->AlturaDoNodo(nodo->filhoEsquerda) - this->AlturaDoNodo(nodo->filhoDireita));
+        return 0;
+    };
+
+    int AlturaDoNodo(Nodo<T> * nodo) const
+    {
+        if(nodo == nullptr)
+            return -1;
+        return recAltura(nodo);
+    };
+
+    Nodo<T> * FilhoQueContem(Nodo<T> * nodoPai, T chave) const {
+        if(nodoPai->chave == chave)
+            return nodoPai;
+        
+        else if(nodoPai->filhoEsquerda and nodoPai->filhoEsquerda->chave == chave)
+            return nodoPai->filhoEsquerda;
+        
+        else if(nodoPai->filhoDireita and nodoPai->filhoDireita->chave == chave)
+            return nodoPai->filhoDireita;
+        
+        return nodoPai;
+    };
+
+    Nodo<T> * buscaPai(Nodo<T> *nodo, T chave) const{
+        while(nodo and\
+        nodo->chave != chave and\
+        nodo->filhoEsquerda->chave != chave and\
+        nodo->filhoDireita->chave != chave)
+        {
+            if(nodo->chave < chave)
+                nodo = nodo->filhoDireita;
+            
+            else
+                nodo = nodo->filhoEsquerda;
         }
-    }
-
-    void RotacaoSimplesDireita (Nodo<T> *pai){
-        if (pai == nullptr || pai->filhoEsquerda == nullptr)
-            return;
-
-        Nodo<T> *nodo = buscarPai(pai->chave, this->raiz);
-        Nodo<T> *nova_raiz = nullptr;
-
-        if (atuAltura(pai->filhoEsquerda) >= 0) {
-            nova_raiz = RotacaoDireitaDireita(pai);
-        } else {
-            nova_raiz = RotacaoEsquerdaDireita(pai);
-        }
-
-        if (nodo == nullptr) {
-            this->raiz = nova_raiz;
-        } else if (nodo->filhoEsquerda == pai) {
-            nodo->filhoEsquerda = nova_raiz;
-        } else {
-            nodo->filhoDireita = nova_raiz;
-        }
-    }
-
-    Nodo<T> *RotacaoDireitaDireita(Nodo<T> *pai) {
-        Nodo<T> *filhoEsquerda = pai->filhoEsquerda;
-        Nodo<T> *subarvoreDireita = filhoEsquerda->filhoDireita;
-
-        // Realiza a rotação
-        filhoEsquerda->filhoDireita = pai;
-        pai->filhoEsquerda = subarvoreDireita;
-
-        return filhoEsquerda; // Retorna o novo nó pai
-    }
-
-    Nodo<T> *RotacaoEsquerdaEsquerda(Nodo<T> *pai) {
-        Nodo<T> *filhoDireita = pai->filhoDireita;
-        Nodo<T> *subarvoreEsquerda = filhoDireita->filhoEsquerda;
-
-        // Realiza a rotação
-        filhoDireita->filhoEsquerda = pai;
-        pai->filhoDireita = subarvoreEsquerda;
-
-        return filhoDireita; // Retorna o novo nó pai
-    }
-
-    Nodo<T> *RotacaoDireitaEsquerda(Nodo<T> *pai) {
-        // Realiza a rotação à direita seguida de uma rotação à esquerda
-        pai->filhoDireita = RotacaoDireitaDireita(pai->filhoDireita);
-        return RotacaoEsquerdaEsquerda(pai);
-    }
-
-    Nodo<T> *RotacaoEsquerdaDireita(Nodo<T> *pai) {
-        // Realiza a rotação à esquerda seguida de uma rotação à direita
-        pai->filhoEsquerda = RotacaoEsquerdaEsquerda(pai->filhoEsquerda);
-        return RotacaoDireitaDireita(pai);
-    }
+        return nodo;
+    };
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -204,86 +176,71 @@ class MinhaArvoreAVL final : public ArvoreBinariaDeBusca<T>
         return altura;
     }
 
-    void recInserir(Nodo<T> *chaveAtual, T chave) {
-        Nodo<T> *pai = nullptr;
-        Nodo<T> *atual = chaveAtual;
-
-        // Encontra o local de inserção correto e o nó pai.
-        while (atual != nullptr) {
-            pai = atual;
-            if (chave == atual->chave) {
-                // Valor já existe na árvore.
-                return;
-            } else if (chave < atual->chave) {
-                atual = atual->filhoEsquerda;
+    void recInserir(Nodo<T> *nodo, T chave) {
+         if(chave < nodo->chave) {
+            if(!nodo->filhoEsquerda){
+                Nodo<T> * novoNodo = new Nodo<T>();
+                novoNodo->chave = chave;
+                novoNodo->altura = nodo->altura + 1;
+                nodo->filhoEsquerda = novoNodo;
+            }  else {
+                recInserir(nodo->filhoEsquerda, chave);
+                nodo = ReBalancear(nodo);
+            }
+        } else {
+            if(!nodo->filhoDireita){
+                Nodo<T> * novoNodo = new Nodo<T>();
+                novoNodo->chave = chave;
+                novoNodo->altura = nodo->altura + 1;
+                nodo->filhoDireita = novoNodo;
             } else {
-                atual = atual->filhoDireita;
+                recInserir(nodo->filhoDireita, chave);
+                nodo = ReBalancear(nodo);
             }
         }
-
-        // Cria o novo nó com o novo valor.
-        Nodo<T> *novoNodo = new Nodo<T>{chave, 0}; // Suponha que a altura seja inicializada como 0.
-
-        if (pai == nullptr) {
-            // Se o pai for nulo, a árvore estava vazia, então o novo nó se torna a raiz.
-            chaveAtual = novoNodo;
-        } else if (chave < pai->chave) {
-            pai->filhoEsquerda = novoNodo;
-        } else {
-            pai->filhoDireita = novoNodo;
-        }
-
-        this->balanceiaArvore(pai);
     }
     
-    void removeDaArvore(T chaveParaRemover, Nodo<T> *chavePai) {
-        Nodo<T> *chave;
+    void recRemover(Nodo<T> * nodoPai, T chave) {
+        if(!nodoPai)
+            return;
 
-        if (chavePai->chave == chaveParaRemover) {
-            if (chave->filhoEsquerda == nullptr && chave->filhoDireita == nullptr) {
-                chavePai = nullptr;
-                delete chavePai;
+        Nodo<T> * nodo = this->FilhoQueContem(nodoPai, chave);
 
-                return;
-            }
-            chave = chavePai;
+        if(nodoPai == nodo and !nodoPai->filhoEsquerda and !nodoPai->filhoDireita)
+        {
+            nodoPai = nullptr;
+            delete nodoPai;
+            return;
         }
-        else if (chavePai->filhoEsquerda != nullptr && chavePai->filhoEsquerda->chave == chaveParaRemover){
-            chave = chavePai->filhoEsquerda;
-
-            if (chave->filhoEsquerda == nullptr && chave->filhoDireita == nullptr) {
-                chavePai->filhoEsquerda = nullptr;
-                delete chave;
-
-                return;
-            }
-        }
-        else if (chavePai->filhoDireita != nullptr && chavePai->filhoDireita->chave == chaveParaRemover) {
-            chave = chavePai->filhoDireita;
-
-            if (chave->filhoEsquerda == nullptr && chave->filhoDireita == nullptr) {
-                chavePai->filhoDireita = nullptr;
-                delete chave;
-
-                return;
-            }
-        }
-        
-        if(chave != nullptr && chave->filhoDireita != nullptr) {
-            Nodo<T> *chaveAux = chave->filhoDireita;
-            Nodo<T> *chavePaiAux = chave;
-
-            while (chaveAux->filhoEsquerda != nullptr) {
-                chavePaiAux = chaveAux;
-                chaveAux = chaveAux->filhoEsquerda;
-            }
-
-            chave->chave = chaveAux->chave;
-            chaveAux->chave = chaveParaRemover;
-            return this->removeDaArvore(chaveParaRemover, chavePaiAux);
+    
+        else if(nodoPai->filhoEsquerda == nodo and !nodo->filhoEsquerda and !nodo->filhoDireita)
+        {
+            nodoPai->filhoEsquerda = nullptr;
+            delete nodo;
+            return;
         }
 
-        return;
+        else if(nodoPai->filhoDireita == nodo and !nodo->filhoEsquerda and !nodo->filhoDireita)
+        {
+            nodoPai->filhoDireita = nullptr;
+            delete nodo;
+            return;
+        }
+
+        if(nodo->filhoDireita)
+        {
+            Nodo<T> * aux = nodo->filhoDireita;
+            Nodo<T> * auxPai = nodo;
+            while(aux->filhoEsquerda)
+            {
+                auxPai = aux;
+                aux = aux->filhoEsquerda;
+            }
+            nodo->chave = aux->chave;
+            aux->chave = chave;
+            recRemover(auxPai, chave);
+            nodoPai = ReBalancear(nodoPai);
+        }
     }
 
     void recEmOrdem(Nodo<T> *chave, ListaEncadeadaAbstrata<T> *lista) const {
@@ -384,16 +341,15 @@ class MinhaArvoreAVL final : public ArvoreBinariaDeBusca<T>
      */     
 
     virtual void inserir(T chave) {
-        if (this->vazia()) {
-            Nodo<T> *novoNodo = new Nodo<T>();
+        if(this->vazia()){
+            Nodo<T> * novoNodo = new Nodo<T>();
             novoNodo->chave = chave;
             novoNodo->altura = 0;
-            delete this->raiz;
             this->raiz = novoNodo;
             return;
         }
-
-        this->recInserir(this->raiz, chave);
+        recInserir(this->raiz, chave);
+        this->raiz = Balancear(this->raiz);
     };
 
     /**
@@ -401,26 +357,16 @@ class MinhaArvoreAVL final : public ArvoreBinariaDeBusca<T>
      * @param chave chave a removida
      */        
     virtual void remover(T chave) {
-        if (this->vazia()) {
-            return;
-        }
-
-        Nodo<T> *raiz = this->raiz;
-
-        if(raiz->chave == chave && raiz->filhoEsquerda == nullptr && raiz->filhoDireita == nullptr) {
+        if (this->raiz->chave == chave && this->raiz->filhoEsquerda == nullptr && this->raiz->filhoDireita == nullptr) {
+            delete this->raiz;
             this->raiz = nullptr;
-            delete raiz;
             return;
         }
 
         if (this->contem(chave)) {
-            Nodo<T> *chavePai = this->buscarPai(chave, raiz);
-            if (chavePai == nullptr) {
-                this->removeDaArvore(chave, raiz);
-                return;
-            }
-            this->removeDaArvore(chave, chavePai);  
-            this->balanceiaArvore(chavePai);
+            Nodo<T> *chavePai = this->buscaPai(this->raiz, chave);
+            recRemover(chavePai, chave);
+            this->raiz = Balancear(this->raiz);
         }
     };
 
