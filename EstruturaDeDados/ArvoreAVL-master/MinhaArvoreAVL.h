@@ -12,117 +12,117 @@ template <typename T>
 class MinhaArvoreAVL final : public ArvoreBinariaDeBusca<T>
 {
     protected:
-    // Balanceamemto da árvore
-    Nodo<T> * ReBalancear(Nodo<T> * nodo)
-    {
-        if(nodo->filhoEsquerda)
-            nodo->filhoEsquerda = Balancear(nodo->filhoEsquerda);
-                
-        if(nodo->filhoDireita)
-            nodo->filhoDireita = Balancear(nodo->filhoDireita);
-        return nodo;
-    };
-
+    // Balanceamemto da árvore   
     Nodo<T>* Balancear(Nodo<T>* nodoPai) {
         if (!nodoPai)
             return nullptr;
 
-        int b = B(nodoPai);
+        int equilibrio = fatorEquilibrio(nodoPai);
 
-        if (b < -1) {
-            if (B(nodoPai->filhoDireita) <= 0)
-                return RotacaoSimplesEsquerda(nodoPai);
-            else
-                return RotacaoDireitaEsquerda(nodoPai);
-        }
-        
-        if (b > 1) {
-            if (B(nodoPai->filhoEsquerda) >= 0)
-                return RotacaoSimplesDireita(nodoPai);
-            else
-                return RotacaoEsquerdaDireita(nodoPai);
-        }
-        
-        if (nodoPai->chave == this->raiz->chave)
+        if (equilibrio < -1) {
+            return (fatorEquilibrio(nodoPai->filhoDireita) <= 0) ? RotacaoSimplesEsquerda(nodoPai) : RotacaoDireitaEsquerda(nodoPai);
+        } else if (equilibrio > 1) {
+            return (fatorEquilibrio(nodoPai->filhoEsquerda) >= 0) ? RotacaoSimplesDireita(nodoPai) : RotacaoEsquerdaDireita(nodoPai);
+        } else if (nodoPai->chave == this->raiz->chave) {
             return nodoPai;
+        }
 
         return nodoPai;
     }
 
 
-    Nodo<T> * RotacaoSimplesEsquerda(Nodo<T> * A)
-    {
-        Nodo<T> * C = A->filhoDireita;
-        Nodo<T> * D = C->filhoEsquerda;
-        C->filhoEsquerda = A;
-        A->filhoDireita = D;
-        return C;
+    Nodo<T> * RotacaoSimplesEsquerda(Nodo<T> * nodo) {
+        Nodo<T> * filhoD = nodo->filhoDireita;
+        Nodo<T> * filhoE = filhoD->filhoEsquerda;
+        filhoD->filhoEsquerda = nodo;
+        nodo->filhoDireita = filhoE;
+        return filhoD;
     };
 
-    Nodo<T> * RotacaoSimplesDireita(Nodo<T> * A)
-    {
-        Nodo<T> * B = A->filhoEsquerda;
-        Nodo<T> * E = B->filhoDireita;
-        B->filhoDireita = A;
-        A->filhoEsquerda = E;
-        return B;
+    Nodo<T> * RotacaoSimplesDireita(Nodo<T> * nodo) {
+        Nodo<T> * filhoE = nodo->filhoEsquerda;
+        Nodo<T> * filhoD = filhoE->filhoDireita;
+        filhoE->filhoDireita = nodo;
+        nodo->filhoEsquerda = filhoD;
+        return filhoE;
     };
 
-    Nodo<T> * RotacaoEsquerdaDireita(Nodo<T> * A)
-    {
-        A->filhoEsquerda = RotacaoSimplesEsquerda(A->filhoEsquerda);
-        return RotacaoSimplesDireita(A);
-    };
+    Nodo<T> *RotacaoEsquerdaDireita(Nodo<T> *nodo) {
+        if (!nodo || !nodo->filhoEsquerda || !nodo->filhoEsquerda->filhoDireita)
+            return nullptr;
 
-    Nodo<T> * RotacaoDireitaEsquerda(Nodo<T> * A)
-    {
-        A->filhoDireita = RotacaoSimplesDireita(A->filhoDireita);
-        return RotacaoSimplesEsquerda(A);
-    };  
+        Nodo<T> *B = nodo->filhoEsquerda;
+        Nodo<T> *C = B->filhoDireita;
+        Nodo<T> *D = C->filhoEsquerda;
+
+        // Realiza a rotação simples à esquerda em B
+        B->filhoDireita = D;
+        C->filhoEsquerda = B;
+
+        // Atualiza as alturas de B e C
+        atualizarAltura(B);
+        atualizarAltura(C);
+
+        // Realiza a rotação simples à direita em nodo
+        nodo->filhoEsquerda = C;
+        atualizarAltura(nodo);
+
+        Nodo<T> * filhoE = nodo->filhoEsquerda;
+        Nodo<T> * filhoD = filhoE->filhoDireita;
+        filhoE->filhoDireita = nodo;
+        nodo->filhoEsquerda = filhoD;
+        return filhoE;
+    }
+
+    Nodo<T> *RotacaoDireitaEsquerda(Nodo<T> *nodo) {
+        if (!nodo || !nodo->filhoDireita || !nodo->filhoDireita->filhoEsquerda)
+            return nullptr;
+
+        Nodo<T> *B = nodo->filhoDireita;
+        Nodo<T> *C = B->filhoEsquerda;
+        Nodo<T> *D = C->filhoDireita;
+
+        // Realiza a rotação simples à direita em B
+        B->filhoEsquerda = D;
+        C->filhoDireita = B;
+
+        // Atualiza as alturas de B e C
+        atualizarAltura(B);
+        atualizarAltura(C);
+
+        // Realiza a rotação simples à esquerda em nodo
+        nodo->filhoDireita = C;
+        atualizarAltura(nodo);
+
+        Nodo<T> * filhoD = nodo->filhoDireita;
+        Nodo<T> * filhoE = filhoD->filhoEsquerda;
+        filhoD->filhoEsquerda = nodo;
+        nodo->filhoDireita = filhoE;
+        return filhoD;
+    }
 
     ///////////////////////////////////////////////////////////////////////
-    //Fator B
-    int B(Nodo<T> * nodo) const
-    {
-        if(nodo)
-            return (this->AlturaDoNodo(nodo->filhoEsquerda) - this->AlturaDoNodo(nodo->filhoDireita));
-        return 0;
+    int fatorEquilibrio(Nodo<T> * nodo) const {
+        return (nodo) ? (atualizarAltura(nodo->filhoEsquerda) - atualizarAltura(nodo->filhoDireita)) : 0;
     };
 
-    int AlturaDoNodo(Nodo<T> * nodo) const
-    {
-        if(nodo == nullptr)
-            return -1;
-        return recAltura(nodo);
+    int atualizarAltura(Nodo<T> * nodo) const {
+        return (nodo) ? recAltura(nodo) : -1;
     };
 
-    Nodo<T> * FilhoQueContem(Nodo<T> * nodoPai, T chave) const {
-        if(nodoPai->chave == chave)
-            return nodoPai;
-        
-        else if(nodoPai->filhoEsquerda and nodoPai->filhoEsquerda->chave == chave)
-            return nodoPai->filhoEsquerda;
-        
-        else if(nodoPai->filhoDireita and nodoPai->filhoDireita->chave == chave)
-            return nodoPai->filhoDireita;
-        
-        return nodoPai;
-    };
-
-    Nodo<T> * buscaPai(Nodo<T> *nodo, T chave) const{
-        while(nodo and\
-        nodo->chave != chave and\
-        nodo->filhoEsquerda->chave != chave and\
-        nodo->filhoDireita->chave != chave)
-        {
-            if(nodo->chave < chave)
+    Nodo<T>* buscaPai(Nodo<T>* nodo, T chave) const {
+        while (nodo && nodo->chave != chave &&
+            (nodo->filhoEsquerda && nodo->filhoEsquerda->chave != chave) &&
+            (nodo->filhoDireita && nodo->filhoDireita->chave != chave)) {
+            if (nodo->chave < chave) {
                 nodo = nodo->filhoDireita;
-            
-            else
+            } else {
                 nodo = nodo->filhoEsquerda;
+            }
         }
         return nodo;
-    };
+    }
+
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -163,17 +163,13 @@ class MinhaArvoreAVL final : public ArvoreBinariaDeBusca<T>
     }
 
     int recAltura(Nodo<T> *chave) const {
-        int altura = 0, Esquerda = 0, Direita = 0;
+        if (!chave)
+            return 0;
 
-        if (chave->filhoEsquerda != nullptr) {
-            Esquerda = 1 + recAltura(chave->filhoEsquerda);
-        }
-        if (chave->filhoDireita != nullptr) {
-            Direita = 1 + recAltura(chave->filhoDireita);
-        }
+        int alturaEsquerda = atualizarAltura(chave->filhoEsquerda);
+        int alturaDireita = atualizarAltura(chave->filhoDireita);
 
-        altura = std::max(Esquerda, Direita);
-        return altura;
+        return std::max(alturaEsquerda, alturaDireita) + 1;
     }
 
     void recInserir(Nodo<T> *nodo, T chave) {
@@ -185,7 +181,12 @@ class MinhaArvoreAVL final : public ArvoreBinariaDeBusca<T>
                 nodo->filhoEsquerda = novoNodo;
             }  else {
                 recInserir(nodo->filhoEsquerda, chave);
-                nodo = ReBalancear(nodo);
+                if(nodo->filhoEsquerda)
+                    nodo->filhoEsquerda = Balancear(nodo->filhoEsquerda);
+                    
+                if(nodo->filhoDireita)
+                    nodo->filhoDireita = Balancear(nodo->filhoDireita);
+                nodo = nodo;
             }
         } else {
             if(!nodo->filhoDireita){
@@ -195,33 +196,44 @@ class MinhaArvoreAVL final : public ArvoreBinariaDeBusca<T>
                 nodo->filhoDireita = novoNodo;
             } else {
                 recInserir(nodo->filhoDireita, chave);
-                nodo = ReBalancear(nodo);
+                if(nodo->filhoEsquerda)
+                    nodo->filhoEsquerda = Balancear(nodo->filhoEsquerda);
+                    
+                if(nodo->filhoDireita)
+                    nodo->filhoDireita = Balancear(nodo->filhoDireita);
+                nodo = nodo;
             }
         }
     }
     
     void recRemover(Nodo<T> * nodoPai, T chave) {
+        Nodo<T> * nodo = nullptr;
+
         if(!nodoPai)
             return;
 
-        Nodo<T> * nodo = this->FilhoQueContem(nodoPai, chave);
+        if(nodoPai->chave == chave)
+            nodo = nodoPai;
+        
+        else if(nodoPai->filhoEsquerda and nodoPai->filhoEsquerda->chave == chave)
+            nodo = nodoPai->filhoEsquerda;
+        
+        else if(nodoPai->filhoDireita and nodoPai->filhoDireita->chave == chave)
+            nodo = nodoPai->filhoDireita;
 
-        if(nodoPai == nodo and !nodoPai->filhoEsquerda and !nodoPai->filhoDireita)
-        {
+        if(nodoPai == nodo and !nodoPai->filhoEsquerda and !nodoPai->filhoDireita) {
             nodoPai = nullptr;
             delete nodoPai;
             return;
         }
     
-        else if(nodoPai->filhoEsquerda == nodo and !nodo->filhoEsquerda and !nodo->filhoDireita)
-        {
+        else if(nodoPai->filhoEsquerda == nodo and !nodo->filhoEsquerda and !nodo->filhoDireita) {
             nodoPai->filhoEsquerda = nullptr;
             delete nodo;
             return;
         }
 
-        else if(nodoPai->filhoDireita == nodo and !nodo->filhoEsquerda and !nodo->filhoDireita)
-        {
+        else if(nodoPai->filhoDireita == nodo and !nodo->filhoEsquerda and !nodo->filhoDireita) {
             nodoPai->filhoDireita = nullptr;
             delete nodo;
             return;
@@ -239,7 +251,13 @@ class MinhaArvoreAVL final : public ArvoreBinariaDeBusca<T>
             nodo->chave = aux->chave;
             aux->chave = chave;
             recRemover(auxPai, chave);
-            nodoPai = ReBalancear(nodoPai);
+
+            if(nodo->filhoEsquerda)
+                nodo->filhoEsquerda = Balancear(nodo->filhoEsquerda);
+                    
+            if(nodo->filhoDireita)
+                nodo->filhoDireita = Balancear(nodo->filhoDireita);
+            nodoPai = nodo;
         }
     }
 
