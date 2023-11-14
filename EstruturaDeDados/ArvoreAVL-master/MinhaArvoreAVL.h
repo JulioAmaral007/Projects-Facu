@@ -13,7 +13,7 @@ class MinhaArvoreAVL final : public ArvoreBinariaDeBusca<T>
 {
     protected:
     // Balanceamemto da árvore   
-    Nodo<T>* Balancear(Nodo<T>* nodoPai) {
+    Nodo<T>* BalancArvore(Nodo<T>* nodoPai) {
         if (!nodoPai)
             return nullptr;
 
@@ -32,18 +32,26 @@ class MinhaArvoreAVL final : public ArvoreBinariaDeBusca<T>
 
 
     Nodo<T> * RotacaoSimplesEsquerda(Nodo<T> * nodo) {
-        Nodo<T> * filhoD = nodo->filhoDireita;
-        Nodo<T> * filhoE = filhoD->filhoEsquerda;
+        if (!nodo || !nodo->filhoDireita) {
+            return nodo;
+        }
+
+        Nodo<T>* filhoD = nodo->filhoDireita;
+        nodo->filhoDireita = filhoD->filhoEsquerda;
         filhoD->filhoEsquerda = nodo;
-        nodo->filhoDireita = filhoE;
+
         return filhoD;
     };
 
     Nodo<T> * RotacaoSimplesDireita(Nodo<T> * nodo) {
-        Nodo<T> * filhoE = nodo->filhoEsquerda;
-        Nodo<T> * filhoD = filhoE->filhoDireita;
+        if (!nodo || !nodo->filhoEsquerda) {
+            return nodo;
+        }
+
+        Nodo<T>* filhoE = nodo->filhoEsquerda;
+        nodo->filhoEsquerda = filhoE->filhoDireita;
         filhoE->filhoDireita = nodo;
-        nodo->filhoEsquerda = filhoD;
+
         return filhoE;
     };
 
@@ -111,13 +119,25 @@ class MinhaArvoreAVL final : public ArvoreBinariaDeBusca<T>
     };
 
     Nodo<T>* buscaPai(Nodo<T>* nodo, T chave) const {
-        while (nodo && nodo->chave != chave &&
-            (nodo->filhoEsquerda && nodo->filhoEsquerda->chave != chave) &&
-            (nodo->filhoDireita && nodo->filhoDireita->chave != chave)) {
+        for (; nodo && nodo->chave != chave; ) {
             if (nodo->chave < chave) {
-                nodo = nodo->filhoDireita;
+                if (nodo->filhoDireita) {
+                    if (nodo->filhoDireita->chave == chave) {
+                        return nodo;
+                    }
+                    nodo = nodo->filhoDireita;
+                } else {
+                    break;
+                }
             } else {
-                nodo = nodo->filhoEsquerda;
+                if (nodo->filhoEsquerda) {
+                    if (nodo->filhoEsquerda->chave == chave) {
+                        return nodo;
+                    }
+                    nodo = nodo->filhoEsquerda;
+                } else {
+                    break;
+                }
             }
         }
         return nodo;
@@ -127,15 +147,10 @@ class MinhaArvoreAVL final : public ArvoreBinariaDeBusca<T>
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     void recDestrutor(Nodo<T> *chave) {
-        // Verifica se o nó atual não é nulo.
         if (chave != nullptr) {
-            // Chama recursivamente o destrutor para a subárvore esquerda.
             this->recDestrutor(chave->filhoEsquerda);
-            
-            // Chama recursivamente o destrutor para a subárvore direita.
             this->recDestrutor(chave->filhoDireita);
-            
-            // Libera a memória alocada para o nó atual.
+        
             delete chave;
         }
     }
@@ -182,10 +197,10 @@ class MinhaArvoreAVL final : public ArvoreBinariaDeBusca<T>
             }  else {
                 recInserir(nodo->filhoEsquerda, chave);
                 if(nodo->filhoEsquerda)
-                    nodo->filhoEsquerda = Balancear(nodo->filhoEsquerda);
+                    nodo->filhoEsquerda = BalancArvore(nodo->filhoEsquerda);
                     
                 if(nodo->filhoDireita)
-                    nodo->filhoDireita = Balancear(nodo->filhoDireita);
+                    nodo->filhoDireita = BalancArvore(nodo->filhoDireita);
                 nodo = nodo;
             }
         } else {
@@ -197,66 +212,55 @@ class MinhaArvoreAVL final : public ArvoreBinariaDeBusca<T>
             } else {
                 recInserir(nodo->filhoDireita, chave);
                 if(nodo->filhoEsquerda)
-                    nodo->filhoEsquerda = Balancear(nodo->filhoEsquerda);
+                    nodo->filhoEsquerda = BalancArvore(nodo->filhoEsquerda);
                     
                 if(nodo->filhoDireita)
-                    nodo->filhoDireita = Balancear(nodo->filhoDireita);
+                    nodo->filhoDireita = BalancArvore(nodo->filhoDireita);
                 nodo = nodo;
             }
         }
     }
     
     void recRemover(Nodo<T> * nodoPai, T chave) {
-        Nodo<T> * nodo = nullptr;
+        Nodo<T>* nodo = nullptr;
 
-        if(!nodoPai)
-            return;
-
-        if(nodoPai->chave == chave)
+        if (nodoPai && nodoPai->chave == chave) {
             nodo = nodoPai;
-        
-        else if(nodoPai->filhoEsquerda and nodoPai->filhoEsquerda->chave == chave)
+        } else if (nodoPai && nodoPai->filhoEsquerda && nodoPai->filhoEsquerda->chave == chave) {
             nodo = nodoPai->filhoEsquerda;
-        
-        else if(nodoPai->filhoDireita and nodoPai->filhoDireita->chave == chave)
+        } else if (nodoPai && nodoPai->filhoDireita && nodoPai->filhoDireita->chave == chave) {
             nodo = nodoPai->filhoDireita;
+        }
 
-        if(nodoPai == nodo and !nodoPai->filhoEsquerda and !nodoPai->filhoDireita) {
+        if (nodo && nodoPai == nodo && !nodo->filhoEsquerda && !nodo->filhoDireita) {
+            delete nodo;
             nodoPai = nullptr;
-            delete nodoPai;
             return;
-        }
-    
-        else if(nodoPai->filhoEsquerda == nodo and !nodo->filhoEsquerda and !nodo->filhoDireita) {
+        } else if (nodo && nodoPai->filhoEsquerda == nodo && !nodo->filhoEsquerda && !nodo->filhoDireita) {
+            delete nodo;
             nodoPai->filhoEsquerda = nullptr;
-            delete nodo;
             return;
-        }
-
-        else if(nodoPai->filhoDireita == nodo and !nodo->filhoEsquerda and !nodo->filhoDireita) {
+        } else if (nodo && nodoPai->filhoDireita == nodo && !nodo->filhoEsquerda && !nodo->filhoDireita) {
+            delete nodo;
             nodoPai->filhoDireita = nullptr;
-            delete nodo;
             return;
         }
 
-        if(nodo->filhoDireita)
-        {
+        if(nodo->filhoDireita) {
             Nodo<T> * aux = nodo->filhoDireita;
             Nodo<T> * auxPai = nodo;
-            while(aux->filhoEsquerda)
-            {
+            while(aux->filhoEsquerda) {
                 auxPai = aux;
                 aux = aux->filhoEsquerda;
             }
-            nodo->chave = aux->chave;
-            aux->chave = chave;
+            std::swap(nodo->chave, aux->chave);
             recRemover(auxPai, chave);
 
             if(nodo->filhoEsquerda)
-                nodo->filhoEsquerda = Balancear(nodo->filhoEsquerda);
+                nodo->filhoEsquerda = BalancArvore(nodo->filhoEsquerda);
                     
             if(nodo->filhoDireita)
-                nodo->filhoDireita = Balancear(nodo->filhoDireita);
+                nodo->filhoDireita = BalancArvore(nodo->filhoDireita);
             nodoPai = nodo;
         }
     }
@@ -367,7 +371,7 @@ class MinhaArvoreAVL final : public ArvoreBinariaDeBusca<T>
             return;
         }
         recInserir(this->raiz, chave);
-        this->raiz = Balancear(this->raiz);
+        this->raiz = BalancArvore(this->raiz);
     };
 
     /**
@@ -375,18 +379,20 @@ class MinhaArvoreAVL final : public ArvoreBinariaDeBusca<T>
      * @param chave chave a removida
      */        
     virtual void remover(T chave) {
-        if (this->raiz->chave == chave && this->raiz->filhoEsquerda == nullptr && this->raiz->filhoDireita == nullptr) {
-            delete this->raiz;
-            this->raiz = nullptr;
-            return;
-        }
-
         if (this->contem(chave)) {
-            Nodo<T> *chavePai = this->buscaPai(this->raiz, chave);
-            recRemover(chavePai, chave);
-            this->raiz = Balancear(this->raiz);
+            if (this->raiz->chave == chave && !this->raiz->filhoEsquerda && !this->raiz->filhoDireita) {
+                delete this->raiz;
+                this->raiz = nullptr;
+                return;
+            }
+
+            Nodo<T>* chavePai = buscaPai(this->raiz, chave);
+            if (chavePai) {
+                recRemover(chavePai, chave);
+                this->raiz = BalancArvore(this->raiz);
+            }
         }
-    };
+    }
 
     /**
      * @brief Busca a chave do filho a esquerda de uma (sub)arvore
