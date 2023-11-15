@@ -143,9 +143,6 @@ class MinhaArvoreAVL final : public ArvoreBinariaDeBusca<T>
         return nodo;
     }
 
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////
-
     void recDestrutor(Nodo<T> *chave) {
         if (chave != nullptr) {
             this->recDestrutor(chave->filhoEsquerda);
@@ -163,10 +160,10 @@ class MinhaArvoreAVL final : public ArvoreBinariaDeBusca<T>
     }
 
     Nodo<T> *recContem(T chave, Nodo<T> *nodo) const {
-        if (nodo->chave == chave) {
-            return nodo;
-        }
-        while (nodo && nodo->chave != chave) {
+        while (nodo) {
+            if (nodo->chave == chave) {
+                return nodo;
+            }
             if (nodo->chave < chave) {
                 nodo = nodo->filhoDireita;
             } else {
@@ -174,7 +171,7 @@ class MinhaArvoreAVL final : public ArvoreBinariaDeBusca<T>
             }
         }
         
-        return nodo;
+        return nullptr;
     }
 
     int recAltura(Nodo<T> *chave) const {
@@ -310,8 +307,7 @@ class MinhaArvoreAVL final : public ArvoreBinariaDeBusca<T>
      * @brief Verifica se a arvore esta vazia
      * @return Verdade se a arvore esta vazia.
      */
-    virtual bool vazia() const
-    {
+    virtual bool vazia() const {
         if (this->raiz == nullptr)
             return true;
         return false;
@@ -321,8 +317,7 @@ class MinhaArvoreAVL final : public ArvoreBinariaDeBusca<T>
      * @brief Retornar quantidade de chaves na arvore
      * @return Numero natural que representa a quantidade de chaves na arvore
      */
-    int quantidade() const
-    {
+    int quantidade() const {
         return this->recQuantidade(this->raiz);
     };
     
@@ -363,7 +358,7 @@ class MinhaArvoreAVL final : public ArvoreBinariaDeBusca<T>
      */     
 
     virtual void inserir(T chave) {
-        if(this->vazia()){
+        if(this->vazia()) {
             Nodo<T> * novoNodo = new Nodo<T>();
             novoNodo->chave = chave;
             novoNodo->altura = 0;
@@ -405,8 +400,7 @@ class MinhaArvoreAVL final : public ArvoreBinariaDeBusca<T>
 
         Nodo<T> *chavePai = this->recContem(chave, this->raiz);
 
-        if (chavePai->filhoEsquerda != nullptr)
-        {
+        if (chavePai->filhoEsquerda != nullptr) {
             return chavePai->filhoEsquerda->chave;
         }
 
@@ -424,8 +418,7 @@ class MinhaArvoreAVL final : public ArvoreBinariaDeBusca<T>
 
         Nodo<T> *chavePai = this->recContem(chave, this->raiz);
 
-        if (chavePai->filhoDireita != nullptr)
-        {
+        if (chavePai->filhoDireita != nullptr) {
             return chavePai->filhoDireita->chave;
         }
         
