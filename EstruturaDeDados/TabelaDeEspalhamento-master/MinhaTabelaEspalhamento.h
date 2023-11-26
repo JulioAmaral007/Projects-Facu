@@ -12,6 +12,7 @@
 
 #include <typeinfo>
 #include <cmath>
+#include <numeric> 
 
 
 #include <array>
@@ -26,16 +27,13 @@ class MinhaTabelaEspalhamento final:
             std::size_t value = 0;
             std::size_t n = 31; // Fator de espalhamento
 
-
             // Itera pelos caracteres na string e calcula o valor de espalhamento.
-            for (std::size_t i = 0; i < dado.length(); i++) {
-                value += static_cast<std::size_t>(dado[i]) * std::pow(n, dado.length() - (i + 1));
+            for (const char& c : dado) {
+                value = (value * n) + static_cast<std::size_t>(c);
             }
 
-
             // Calcula o índice final usando o módulo com a capacidade da tabela hash.
-            std::size_t tDado = (value % capacidade());
-            return tDado;
+            return value % capacidade();
         }
 
 
@@ -50,8 +48,7 @@ class MinhaTabelaEspalhamento final:
          *
          * @return Um inteiro maior do que 0.
          */
-        std::size_t capacidade() const
-        {
+        std::size_t capacidade() const  {
             return this->tabela.size();
         };
 
@@ -62,11 +59,12 @@ class MinhaTabelaEspalhamento final:
          *
          * @param dado O dado a ser inserido.
          */
-        void inserir(T dado)
-        {
+        void inserir(T dado) {
             std::size_t tDado = funcaoEspalhamento(dado);
-            if(!this->tabela.at(tDado).contem(dado))
-                this->tabela.at(tDado).inserirNoFim(dado);
+            auto& lista = this->tabela.at(tDado);
+            if (!lista.contem(dado)) {
+                lista.inserirNoFim(dado);
+            }
         };
 
 
@@ -76,12 +74,11 @@ class MinhaTabelaEspalhamento final:
          *
          * @param dado O dado a ser removido.
          */
-        void remover(T dado)
-        {
+        void remover(T dado) {
             std::size_t tDado = funcaoEspalhamento(dado);
-            if(!this->tabela.at(tDado).contem(dado))
+            if (!this->tabela[tDado].contem(dado))
                 throw ExcecaoDadoInexistente();
-            this->tabela.at(tDado).remover(dado);
+            this->tabela[tDado].remover(dado);
         };
 
 
@@ -91,12 +88,9 @@ class MinhaTabelaEspalhamento final:
          * @param dado O dado sendo buscado.
          * @return true se o dado está contido na tabela; false caso contrário.
          */
-        bool contem(T dado) const
-        {
+        bool contem(T dado) const {
             std::size_t tDado = funcaoEspalhamento(dado);
-            if(this->tabela.at(tDado).contem(dado))
-                return true;
-            return false;
+            return this->tabela[tDado].contem(dado);
         };
 
 
@@ -105,25 +99,17 @@ class MinhaTabelaEspalhamento final:
          *
          * @return Um inteiro maior ou igual a 0.
          */
-        std::size_t quantidade() const
-        {
-            std::size_t size = 0;
-            for (size_t i = 0; i < capacidade(); i++)
-                size += this->tabela.at(i).tamanho();
-            return size;
+        virtual std::size_t quantidade() const  {
+            return std::accumulate(this->tabela.begin(), this->tabela.end(), 0,
+                           [](std::size_t total, const auto& lista) {
+                               return total + lista.tamanho();
+                           });
         };
 
 
-        std::size_t funcaoEspalhamento(int dado) const
-        {
-        // Converte o valor inteiro em um valor sem sinal de tamanho.
-        std::size_t value = static_cast<std::size_t>(dado);
-
-
-        // Calcula o índice usando a operação de módulo com o tamanho da tabela.
-        std::size_t tDado = value % this->tabela.size();
-        return tDado;
-        };
+        std::size_t funcaoEspalhamento(int dado) const {
+            return static_cast<std::size_t>(dado) % this->tabela.size();
+        }
 };
 
 

@@ -159,21 +159,6 @@ class MinhaArvoreAVL final : public ArvoreBinariaDeBusca<T>
         return 0;
     }
 
-    Nodo<T> *recContem(T chave, Nodo<T> *nodo) const {
-        while (nodo) {
-            if (nodo->chave == chave) {
-                return nodo;
-            }
-            if (nodo->chave < chave) {
-                nodo = nodo->filhoDireita;
-            } else {
-                nodo = nodo->filhoEsquerda;
-            }
-        }
-        
-        return nullptr;
-    }
-
     int recAltura(Nodo<T> *chave) const {
         if (!chave)
             return 0;
@@ -291,10 +276,6 @@ class MinhaArvoreAVL final : public ArvoreBinariaDeBusca<T>
 
     public:
 
-    MinhaArvoreAVL(){
-        this->raiz = nullptr;
-    };
-
     virtual ~MinhaArvoreAVL(){
         if (this->raiz == nullptr) {
             return;
@@ -330,12 +311,22 @@ class MinhaArvoreAVL final : public ArvoreBinariaDeBusca<T>
         if(vazia()){
             return false;
         }
+
+        Nodo<T>* nodoAtual = this->raiz;
         
-        Nodo<T> * nodo = this->recContem(chave, this->raiz);
-    
-        if(nodo && nodo->chave == chave){
-            return true;
-        }   
+        while (nodoAtual != nullptr) {
+            if (nodoAtual->chave == chave) {
+                return true;
+            }
+
+        
+            if (nodoAtual->chave < chave) {
+                nodoAtual = nodoAtual->filhoDireita;
+            } else {
+                nodoAtual = nodoAtual->filhoEsquerda;
+            }
+        }
+
         return false;
     };
     
@@ -345,11 +336,20 @@ class MinhaArvoreAVL final : public ArvoreBinariaDeBusca<T>
      * @return Numero inteiro representando a altura da (subarvore). Se chave nao esta na arvore, retorna std::nullopt
      */
     virtual std::optional<int> altura(T chave) const {
-        if (!contem(chave))
-            return std::nullopt;
+        Nodo<T>* nodo = this->raiz;
 
-        Nodo<T> *raiz = this->recContem(chave, this->raiz);
-        return this->recAltura(raiz);
+            while (nodo) {
+                if (nodo->chave == chave) {
+                    return recAltura(nodo);
+                }
+                if (nodo->chave < chave) {
+                    nodo = nodo->filhoDireita;
+                } else {
+                    nodo = nodo->filhoEsquerda;
+                }
+            }
+
+        return std::nullopt;
     };
 
     /**
@@ -395,14 +395,23 @@ class MinhaArvoreAVL final : public ArvoreBinariaDeBusca<T>
      * @return Chave do filho a esquerda. Se chave nao esta na arvore, retorna std::nullopt
      */
     virtual std::optional<T> filhoEsquerdaDe(T chave) const {
-        if (!contem(chave))
-            return std::nullopt;
+        Nodo<T>* nodo = this->raiz;
 
-        Nodo<T> *chavePai = this->recContem(chave, this->raiz);
+            while (nodo) {
+                if (nodo->chave == chave) {
+                    if (nodo->filhoEsquerda != nullptr) {
+                        return nodo->filhoEsquerda->chave;
+                    } else {
+                        return std::nullopt;
+                    }
+                }
 
-        if (chavePai->filhoEsquerda != nullptr) {
-            return chavePai->filhoEsquerda->chave;
-        }
+                if (nodo->chave < chave) {
+                    nodo = nodo->filhoDireita;
+                } else {
+                    nodo = nodo->filhoEsquerda;
+                }
+            }
 
         return std::nullopt;
     };
@@ -413,15 +422,24 @@ class MinhaArvoreAVL final : public ArvoreBinariaDeBusca<T>
      * @return Chave do filho a direita. Se chave nao esta na arvore, retorna nullptr
      */        
     virtual std::optional<T> filhoDireitaDe(T chave) const {
-        if (!contem(chave))
-            return std::nullopt;
+        Nodo<T>* nodo = this->raiz;
 
-        Nodo<T> *chavePai = this->recContem(chave, this->raiz);
+            while (nodo) {
+                if (nodo->chave == chave) {
+                    if (nodo->filhoDireita != nullptr) {
+                        return nodo->filhoDireita->chave;
+                    } else {
+                        return std::nullopt;
+                    }
+                }
 
-        if (chavePai->filhoDireita != nullptr) {
-            return chavePai->filhoDireita->chave;
-        }
-        
+                if (nodo->chave < chave) {
+                    nodo = nodo->filhoDireita;
+                } else {
+                    nodo = nodo->filhoEsquerda;
+                }
+            }
+
         return std::nullopt;
     };
 
