@@ -1,7 +1,6 @@
 #ifndef MINHA_TABELA_ESPALHAMENTO_H
 #define MINHA_TABELA_ESPALHAMENTO_H
 
-
 #include "MinhaListaEncadeada.h"
 // MinhaListaEncadeada
 #include "TabelaEspalhamentoAbstrata.h"
@@ -9,113 +8,86 @@
 #include "excecoes.h"
 // ExcecaoDadoInexistente
 
-
-#include <typeinfo>
 #include <cmath>
-#include <numeric> 
-
-
-#include <array>
-
 
 template<typename T, std::size_t capac>
 class MinhaTabelaEspalhamento final:
     public TabelaEspalhamentoAbstrata<T, capac>
 {
-    protected:
-        std::size_t funcaoEspalhamento(std::string dado) const {
-            std::size_t value = 0;
-            std::size_t n = 31; // Fator de espalhamento
-
-            // Itera pelos caracteres na string e calcula o valor de espalhamento.
-            for (const char& c : dado) {
-                value = (value * n) + static_cast<std::size_t>(c);
-            }
-
-            // Calcula o índice final usando o módulo com a capacidade da tabela hash.
-            return value % capacidade();
-        }
-
-
     public:
-        ~MinhaTabelaEspalhamento()
-        {
-        }
 
-
-        /**
-         * @brief Obtém a capacidade da tabela.
-         *
-         * @return Um inteiro maior do que 0.
-         */
-        std::size_t capacidade() const  {
+        virtual std::size_t capacidade() const {
             return this->tabela.size();
         };
 
+        virtual void inserir(T dado) {
+            size_t posicao = funcaoEspalhamento(dado);
 
-        /**
-         * @brief Insere um dado na tabela. Se a tabela já contiver o dado, ele não
-         * é inserido novamente.
-         *
-         * @param dado O dado a ser inserido.
-         */
-        void inserir(T dado) {
-            std::size_t tDado = funcaoEspalhamento(dado);
-            auto& lista = this->tabela.at(tDado);
-            if (!lista.contem(dado)) {
-                lista.inserirNoFim(dado);
+            if (!this->tabela[posicao].contem(dado))
+            {
+                this->tabela[posicao].inserirNoFim(dado);
+            }  
+        };
+
+        virtual void remover(T dado) {
+            size_t posicao = funcaoEspalhamento(dado);
+            if (this->tabela[posicao].contem(dado))
+            {
+                this->tabela[posicao].remover(dado);
+            }
+            else
+            {
+                throw ExcecaoDadoInexistente();
             }
         };
 
-
-        /**
-         * @brief Remove um dado da tabela. Se a tabela não contiver o dado, uma
-         * exceção ExcecaoDadoInexistente é lançada.
-         *
-         * @param dado O dado a ser removido.
-         */
-        void remover(T dado) {
-            std::size_t tDado = funcaoEspalhamento(dado);
-            if (!this->tabela[tDado].contem(dado))
-                throw ExcecaoDadoInexistente();
-            this->tabela[tDado].remover(dado);
+        virtual bool contem(T dado) const {
+            size_t posicao = funcaoEspalhamento(dado);
+            return this->tabela[posicao].contem(dado);
         };
 
-
-        /**
-         * @brief Verifica se \p dado está contido na tabela.
-         *
-         * @param dado O dado sendo buscado.
-         * @return true se o dado está contido na tabela; false caso contrário.
-         */
-        bool contem(T dado) const {
-            std::size_t tDado = funcaoEspalhamento(dado);
-            return this->tabela[tDado].contem(dado);
+        virtual std::size_t quantidade() const {
+            size_t quantidade = 0;
+            
+            for (int i = 0; i < this->tabela.size(); i++) {
+                quantidade += this->tabela[i].tamanho();
+            }
+            
+            return quantidade;
         };
+    
+    protected:
 
-
-        /**
-         * @brief Obtém a quantidade de dados contidos na árvore.
-         *
-         * @return Um inteiro maior ou igual a 0.
-         */
-        virtual std::size_t quantidade() const  {
-            return std::accumulate(this->tabela.begin(), this->tabela.end(), 0,
-                           [](std::size_t total, const auto& lista) {
-                               return total + lista.tamanho();
-                           });
+        virtual std::size_t funcaoEspalhamento(T dado) const {
+            return codigoEspalhamento(dado) % capacidade();
         };
-
-
-        std::size_t funcaoEspalhamento(int dado) const {
-            return static_cast<std::size_t>(dado) % this->tabela.size();
+        
+    private:
+        /**
+         * @brief Calcula a representação numérica de um tipo integral.
+         * 
+         * @tparam U O tipo integral.
+         * @param integral Um valor integral.
+         * @return Um inteiro calculado através de static_cast<std::size_t>(integral)
+         */
+        template<typename U>
+        std::size_t codigoEspalhamento(U integral) const
+        {
+            return static_cast<std::size_t>(integral);
         }
-};
+        
+        std::size_t codigoEspalhamento(std::string const& string) const
+        {
+            size_t valor = 0;
+            size_t length = string.length();
+            
+           for (std::size_t i = 0; i < length; i++) {
+                valor += string[i] * std::pow(31, length - (i + 1));
+            }
 
+            return valor;
+        }
+        
+    };
 
 #endif
-
-
-
-
-

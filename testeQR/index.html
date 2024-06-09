@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Multiple QR Codes</title>
+  <style>
+    .qrcode {
+      display: inline-block;
+      margin: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div id="qrcodes-container"></div>
+  <button id="generate-pdf">Gerar PDF</button>
+
+
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/qrcodejs/qrcode.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/pdfkit/js/pdfkit.standalone.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/blob-stream/blob-stream.js"></script>
+  <script type="text/javascript">
+   const container = document.getElementById('qrcodes-container');
+    const qrCodesArray = [];
+    
+    for (let i = 0; i < 20; i++) {
+      const qrDiv = document.createElement('div');
+      qrDiv.className = 'qrcode';
+      container.appendChild(qrDiv);
+
+      const qrcode = new QRCode(qrDiv, {
+        text: `665CD79DF3A23${i + 1}`,
+        width: 128,
+        height: 128,
+        colorDark : "#000000",
+        colorLight : "#ffffff",
+        correctLevel : QRCode.CorrectLevel.H
+      });
+
+      qrCodesArray.push(qrDiv);
+    }
+
+    function gerarPDF() {
+      const doc = new PDFDocument();
+      const stream = doc.pipe(blobStream());
+
+      let x = 50, y = 50;
+      const qrCodeSize = 100; // Adjust size for the PDF
+      const margin = 20;
+      const pageWidth = doc.page.width;
+      const pageHeight = doc.page.height;
+
+      qrCodesArray.forEach((qrDiv, index) => {
+        const canvas = qrDiv.querySelector('canvas');
+        const imgData = canvas.toDataURL('image/png');
+        if (x + qrCodeSize > pageWidth - margin) {
+          x = 50;
+          y += qrCodeSize + margin;
+          if (y + qrCodeSize > pageHeight - margin) {
+            doc.addPage();
+            y = 50;
+          }
+        }
+        doc.image(imgData, x, y, { width: qrCodeSize, height: qrCodeSize });
+        x += qrCodeSize + margin;
+      });
+
+      doc.end();
+      stream.on('finish', function() {
+        const url = stream.toBlobURL('application/pdf');
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'myfile.pdf';
+        link.click();
+      });
+    }
+
+    const btnGenerate = document.getElementById('generate-pdf');
+    btnGenerate.addEventListener('click', gerarPDF);
+  </script>
+</body>
+</html>

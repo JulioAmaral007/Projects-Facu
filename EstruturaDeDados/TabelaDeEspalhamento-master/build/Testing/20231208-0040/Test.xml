@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Site BuildName="Win32-ninja"
+	BuildStamp="20231208-0040-Experimental"
+	Name="aKira"
+	Generator="ctest-3.26.4"
+	CompilerName="C:/msys64/mingw64/bin/g++.exe"
+	CompilerVersion="13.1.0"
+	OSName="Windows"
+	Hostname="aKira"
+	OSRelease=" Personal"
+	OSVersion=" (Build 22621)"
+	OSPlatform="AMD64"
+	Is64Bits="1"
+	VendorString=""
+	VendorID="Unknown Manufacturer"
+	FamilyID="0"
+	ModelID="0"
+	ProcessorCacheSize="0"
+	NumberOfLogicalCPU="12"
+	NumberOfPhysicalCPU="10"
+	TotalVirtualMemory="23765"
+	TotalPhysicalMemory="7893"
+	LogicalProcessorsPerPhysical="1"
+	ProcessorClockFrequency="2496"
+	>
+	<Testing>
+		<StartDateTime>Dec 07 21:47 Hora oficial do Brasil</StartDateTime>
+		<StartTestTime>1701996444</StartTestTime>
+		<TestList/>
+		<EndDateTime>Dec 07 21:47 Hora oficial do Brasil</EndDateTime>
+		<EndTestTime>1701996444</EndTestTime>
+		<ElapsedMinutes>0</ElapsedMinutes>
+	</Testing>
+</Site>

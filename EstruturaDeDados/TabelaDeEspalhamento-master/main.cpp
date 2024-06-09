@@ -75,7 +75,7 @@ TEST(TabelaEspalhamentoTest, InsercaoSemColisao)
         T const dado{dadoEPosicao.first};
         tabela->inserir(dado);
     }
-
+    size_t t = size(dadosEPosicoesEsperadas);
     ASSERT_EQ(tabela->quantidade(), size(dadosEPosicoesEsperadas));
 
     for (std::pair<T, Posicao> const dadoEPosicao: dadosEPosicoesEsperadas)
