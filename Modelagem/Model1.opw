@@ -1,0 +1,39 @@
+[RESOURCES]
+Resource 4
+Resource 3
+Resource 2
+Resource 1
+[VARIABLES]
+furacao.VATime
+fila desbaste.NumberOut False
+85 passa.NumberOut False
+85 passa.NumberOut True
+Separar tipos.NumberOut False
+Desbaste.NumberIn
+fila furacao.NumberOut True
+Desbaste.NumberOut
+fila Inspecao.NumberOut True
+Inspecao.WaitTime
+fila furacao.NumberOut False
+furacao.NumberOut
+fila torno.NumberOut False
+Create 1.NumberOut
+Desbaste.WaitTime
+tipo 3 vai pra reapr.NumberOut False
+tipo 3 vai pra reapr.NumberOut True
+Dispose 1.NumberOut
+Torneamento.VATime
+fila Inspecao.NumberOut False
+furacao.NumberIn
+Torneamento.WaitTime
+Inspecao.NumberIn
+fila torno.NumberOut True
+Inspecao.NumberOut
+Desbaste.VATime
+Dispose 3.NumberOut
+Torneamento.NumberOut
+Torneamento.NumberIn
+fila desbaste.NumberOut True
+Separar tipos.NumberOut True
+furacao.WaitTime
+Inspecao.VATime

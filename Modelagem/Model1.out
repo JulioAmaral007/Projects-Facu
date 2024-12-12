@@ -1,0 +1,484 @@
+
+                                      ARENA Simulation Results
+                            jczrpereira007@outlook.com - License: STUDENT
+
+                                  Sumário para Replicação 1 de 4
+
+Projeto: Unnamed Project                                             Data da execução :12/10/2024
+Analista: jczrpereira007@outlook.com                                  Data de revisão do modelo:12/10/2024
+
+Replicação terminada no tempo de      : 8.0 Horas 
+Unidade de Tempo Base: Horas
+
+                                           VARIÁVEIS DE REGISTRO
+
+Identificador                                  Média   Meia Largura  Mínimo    Máximo   Observações
+___________________________________________________________________________________________________
+
+Desbaste.VATimePerEntity                    .12629     (Insuf)    .00000     .52056         44    
+Torneamento.VATimePerEntity                 .22447     (Insuf)    .17290     .27553         25    
+furacao.TotalTimePerEntity                  .07250     (Insuf)    .03135     .16329         44    
+furacao.WaitTimePerEntity                   .02081     (Insuf)    .00000     .12730         44    
+Inspecao.TotalTimePerEntity                 .07993     (Insuf)    .06667     .16464         44    
+Inspecao.VATimePerEntity                    .06667     (Insuf)    .06667     .06667         44    
+furacao.VATimePerEntity                     .05169     (Insuf)     2.4547E-4 .09649         44    
+Torneamento.TotalTimePerEntity              .30730     (Insuf)    .17290     .52684         25    
+Torneamento.WaitTimePerEntity               .08284     (Insuf)    .00000     .34002         25    
+Inspecao.WaitTimePerEntity                  .01327     (Insuf)    .00000     .09797         44    
+Desbaste.WaitTimePerEntity                  .14617     (Insuf)    .00000     .41762         44    
+Desbaste.TotalTimePerEntity                 .27247     (Insuf)    .00000     .55822         44    
+Entity 1.VATime                             .42264     (Insuf)    .10768     1.3557         38    
+Entity 1.NVATime                            .00000     (Insuf)    .00000     .00000         38    
+Entity 1.WaitTime                           .24655     (Insuf)    .00000     1.4468         38    
+Entity 1.TranTime                           .00000     (Insuf)    .00000     .00000         38    
+Entity 1.OtherTime                          .00000     (Insuf)    .00000     .00000         38    
+Entity 1.TotalTime                          .66919     (Insuf)    .12093     2.8025         38    
+Torneamento.Queue.WaitingTime               .08962     (Insuf)    .00000     .34002         26    
+furacao.Queue.WaitingTime                   .02081     (Insuf)    .00000     .12730         44    
+Inspecao.Queue.WaitingTime                  .01327     (Insuf)    .00000     .09797         44    
+Desbaste.Queue.WaitingTime                  .14475     (Insuf)    .00000     .41762         45    
+
+                                     VARIÁVEIS DISCRETAS
+
+Identificador                                 Média   Meia Largura  Mínimo    Máximo   Valor Final
+___________________________________________________________________________________________________
+
+Entity 1.WIP                                3.4837     (Insuf)    .00000     7.0000     5.0000    
+Resource 4.NumberBusy                       .36667     (Insuf)    .00000     1.0000     .00000    
+Resource 4.NumberScheduled                  1.0000     (Insuf)    1.0000     1.0000     1.0000    
+Resource 4.Utilization                      .36667     (Insuf)    .00000     1.0000     .00000    
+Resource 3.NumberBusy                       .28428     (Insuf)    .00000     1.0000     .00000    
+Resource 3.NumberScheduled                  1.0000     (Insuf)    1.0000     1.0000     1.0000    
+Resource 3.Utilization                      .28428     (Insuf)    .00000     1.0000     .00000    
+Resource 2.NumberBusy                       .72988     (Insuf)    .00000     1.0000     1.0000    
+Resource 2.NumberScheduled                  1.0000     (Insuf)    1.0000     1.0000     1.0000    
+Resource 2.Utilization                      .72988     (Insuf)    .00000     1.0000     1.0000    
+Resource 1.NumberBusy                       .72432     (Insuf)    .00000     1.0000     1.0000    
+Resource 1.NumberScheduled                  1.0000     (Insuf)    1.0000     1.0000     1.0000    
+Resource 1.Utilization                      .72432     (Insuf)    .00000     1.0000     1.0000    
+Torneamento.Queue.NumberInQueue             .29126     (Insuf)    .00000     2.0000     .00000    
+furacao.Queue.NumberInQueue                 .11446     (Insuf)    .00000     3.0000     .00000    
+Inspecao.Queue.NumberInQueue                .07297     (Insuf)    .00000     2.0000     .00000    
+Desbaste.Queue.NumberInQueue                .89991     (Insuf)    .00000     4.0000     3.0000    
+
+                                             CONTADORES
+
+Identificador                                    Limite Contagem
+_____________________________________________________________
+
+Reap                                              0  Infinite
+tipo3                                             2  Infinite
+reusinadas                                        6  Infinite
+
+                                             RESULTADOS
+
+Identificador                                   Valor
+_____________________________________________________________
+
+furacao Accum VA Time                       2.2742    
+Desbaste Number In                          48.000    
+Desbaste Number Out                         44.000    
+Inspecao Accum Wait Time                    .58380    
+furacao Number Out                          44.000    
+Desbaste Accum Wait Time                    6.4315    
+Torneamento Accum VA Time                   5.6116    
+furacao Number In                           44.000    
+Torneamento Accum Wait Time                 2.0708    
+Inspecao Number In                          44.000    
+Inspecao Number Out                         44.000    
+Desbaste Accum VA Time                      5.5568    
+Torneamento Number Out                      25.000    
+Torneamento Number In                       26.000    
+furacao Accum Wait Time                     .91570    
+Inspecao Accum VA Time                      2.9333    
+Entity 1.NumberIn                           43.000    
+Entity 1.NumberOut                          38.000    
+Resource 4.NumberSeized                     44.000    
+Resource 4.ScheduledUtilization             .36667    
+Resource 3.NumberSeized                     44.000    
+Resource 3.ScheduledUtilization             .28428    
+Resource 2.NumberSeized                     45.000    
+Resource 2.ScheduledUtilization             .72988    
+Resource 1.NumberSeized                     26.000    
+Resource 1.ScheduledUtilization             .72432    
+System.NumberOut                            38.000    
+
+Iniciando replicação 2 de 4
+
+                                      ARENA Simulation Results
+                            jczrpereira007@outlook.com - License: STUDENT
+
+                                  Sumário para Replicação 2 de 4
+
+Projeto: Unnamed Project                                             Data da execução :12/10/2024
+Analista: jczrpereira007@outlook.com                                  Data de revisão do modelo:12/10/2024
+
+Replicação terminada no tempo de      : 8.0 Horas 
+Unidade de Tempo Base: Horas
+
+                                           VARIÁVEIS DE REGISTRO
+
+Identificador                                  Média   Meia Largura  Mínimo    Máximo   Observações
+___________________________________________________________________________________________________
+
+Desbaste.VATimePerEntity                    .11440     (Insuf)    .00000     .44081         42    
+Torneamento.VATimePerEntity                 .21379     (Insuf)    .17674     .27907         28    
+furacao.TotalTimePerEntity                  .06217     (Insuf)    .01096     .18780         41    
+furacao.WaitTimePerEntity                   .01246     (Insuf)    .00000     .14016         41    
+Inspecao.TotalTimePerEntity                 .07017     (Insuf)    .06667     .09849         40    
+Inspecao.VATimePerEntity                    .06667     (Insuf)    .06667     .06667         40    
+furacao.VATimePerEntity                     .04971     (Insuf)    .01096     .08428         41    
+Torneamento.TotalTimePerEntity              .38324     (Insuf)    .17862     .69478         28    
+Torneamento.WaitTimePerEntity               .16945     (Insuf)    .00000     .49126         28    
+Inspecao.WaitTimePerEntity                  .00350     (Insuf)    .00000     .03182         40    
+Desbaste.WaitTimePerEntity                  .10949     (Insuf)    .00000     .62324         42    
+Desbaste.TotalTimePerEntity                 .22389     (Insuf)    .00000     .71425         42    
+Entity 1.VATime                             .40655     (Insuf)    .10955     1.1507         34    
+Entity 1.NVATime                            .00000     (Insuf)    .00000     .00000         34    
+Entity 1.WaitTime                           .17606     (Insuf)    .00000     .70671         34    
+Entity 1.TranTime                           .00000     (Insuf)    .00000     .00000         34    
+Entity 1.OtherTime                          .00000     (Insuf)    .00000     .00000         34    
+Entity 1.TotalTime                          .58261     (Insuf)    .13806     1.5828         34    
+Torneamento.Queue.WaitingTime               .18292     (Insuf)    .00000     .56003         29    
+furacao.Queue.WaitingTime                   .01318     (Insuf)    .00000     .14016         42    
+Inspecao.Queue.WaitingTime                  .00342     (Insuf)    .00000     .03182         41    
+Desbaste.Queue.WaitingTime                  .11777     (Insuf)    .00000     .62324         43    
+
+                                     VARIÁVEIS DISCRETAS
+
+Identificador                                 Média   Meia Largura  Mínimo    Máximo   Valor Final
+___________________________________________________________________________________________________
+
+Entity 1.WIP                                3.6190     (Insuf)    .00000     12.000     12.000    
+Resource 4.NumberBusy                       .34090     (Insuf)    .00000     1.0000     1.0000    
+Resource 4.NumberScheduled                  1.0000     (Insuf)    1.0000     1.0000     1.0000    
+Resource 4.Utilization                      .34090     (Insuf)    .00000     1.0000     1.0000    
+Resource 3.NumberBusy                       .26232     (Insuf)    .00000     1.0000     1.0000    
+Resource 3.NumberScheduled                  1.0000     (Insuf)    1.0000     1.0000     1.0000    
+Resource 3.Utilization                      .26232     (Insuf)    .00000     1.0000     1.0000    
+Resource 2.NumberBusy                       .61348     (Insuf)    .00000     1.0000     1.0000    
+Resource 2.NumberScheduled                  1.0000     (Insuf)    1.0000     1.0000     1.0000    
+Resource 2.Utilization                      .61348     (Insuf)    .00000     1.0000     1.0000    
+Resource 1.NumberBusy                       .76031     (Insuf)    .00000     1.0000     1.0000    
+Resource 1.NumberScheduled                  1.0000     (Insuf)    1.0000     1.0000     1.0000    
+Resource 1.Utilization                      .76031     (Insuf)    .00000     1.0000     1.0000    
+Torneamento.Queue.NumberInQueue             .68030     (Insuf)    .00000     3.0000     1.0000    
+furacao.Queue.NumberInQueue                 .06919     (Insuf)    .00000     3.0000     .00000    
+Inspecao.Queue.NumberInQueue                .01751     (Insuf)    .00000     1.0000     .00000    
+Desbaste.Queue.NumberInQueue                .87499     (Insuf)    .00000     8.0000     7.0000    
+
+                                             CONTADORES
+
+Identificador                                    Limite Contagem
+_____________________________________________________________
+
+Reap                                              0  Infinite
+tipo3                                             1  Infinite
+reusinadas                                        6  Infinite
+
+                                             RESULTADOS
+
+Identificador                                   Valor
+_____________________________________________________________
+
+furacao Accum VA Time                       2.0380    
+Desbaste Number In                          50.000    
+Desbaste Number Out                         42.000    
+Inspecao Accum Wait Time                    .14012    
+furacao Number Out                          41.000    
+Desbaste Accum Wait Time                    4.5986    
+Torneamento Accum VA Time                   5.9860    
+furacao Number In                           42.000    
+Torneamento Accum Wait Time                 4.7446    
+Inspecao Number In                          41.000    
+Inspecao Number Out                         40.000    
+Desbaste Accum VA Time                      4.8048    
+Torneamento Number Out                      28.000    
+Torneamento Number In                       30.000    
+furacao Accum Wait Time                     .51100    
+Inspecao Accum VA Time                      2.6666    
+Entity 1.NumberIn                           46.000    
+Entity 1.NumberOut                          34.000    
+Resource 4.NumberSeized                     41.000    
+Resource 4.ScheduledUtilization             .34090    
+Resource 3.NumberSeized                     42.000    
+Resource 3.ScheduledUtilization             .26232    
+Resource 2.NumberSeized                     43.000    
+Resource 2.ScheduledUtilization             .61348    
+Resource 1.NumberSeized                     29.000    
+Resource 1.ScheduledUtilization             .76031    
+System.NumberOut                            34.000    
+
+Iniciando replicação 3 de 4
+
+                                      ARENA Simulation Results
+                            jczrpereira007@outlook.com - License: STUDENT
+
+                                  Sumário para Replicação 3 de 4
+
+Projeto: Unnamed Project                                             Data da execução :12/10/2024
+Analista: jczrpereira007@outlook.com                                  Data de revisão do modelo:12/10/2024
+
+Replicação terminada no tempo de      : 8.0 Horas 
+Unidade de Tempo Base: Horas
+
+                                           VARIÁVEIS DE REGISTRO
+
+Identificador                                  Média   Meia Largura  Mínimo    Máximo   Observações
+___________________________________________________________________________________________________
+
+Desbaste.VATimePerEntity                    .13662     (Insuf)    .00000     .41857         51    
+Torneamento.VATimePerEntity                 .21875     (Insuf)    .18165     .28441         35    
+furacao.TotalTimePerEntity                  .06681     (Insuf)    .01162     .20502         51    
+furacao.WaitTimePerEntity                   .01598     (Insuf)    .00000     .17878         51    
+Inspecao.TotalTimePerEntity                 .07297     (Insuf)    .06667     .13098         50    
+Inspecao.VATimePerEntity                    .06667     (Insuf)    .06667     .06667         50    
+furacao.VATimePerEntity                     .05083     (Insuf)    .01162     .09782         51    
+Torneamento.TotalTimePerEntity              .55143     (Insuf)    .21468     1.1736         35    
+Torneamento.WaitTimePerEntity               .33268     (Insuf)    .00000     .97401         35    
+Inspecao.WaitTimePerEntity                  .00631     (Insuf)    .00000     .06431         50    
+Desbaste.WaitTimePerEntity                  .22007     (Insuf)    .00000     .64343         51    
+Desbaste.TotalTimePerEntity                 .35670     (Insuf)    .00000     .82223         51    
+Entity 1.VATime                             .45419     (Insuf)    .12698     1.2166         41    
+Entity 1.NVATime                            .00000     (Insuf)    .00000     .00000         41    
+Entity 1.WaitTime                           .51358     (Insuf)    .00000     2.5762         41    
+Entity 1.TranTime                           .00000     (Insuf)    .00000     .00000         41    
+Entity 1.OtherTime                          .00000     (Insuf)    .00000     .00000         41    
+Entity 1.TotalTime                          .96777     (Insuf)    .18359     3.7928         41    
+Torneamento.Queue.WaitingTime               .34040     (Insuf)    .00000     .97401         36    
+furacao.Queue.WaitingTime                   .01598     (Insuf)    .00000     .17878         51    
+Inspecao.Queue.WaitingTime                  .00618     (Insuf)    .00000     .06431         51    
+Desbaste.Queue.WaitingTime                  .22338     (Insuf)    .00000     .64343         52    
+
+                                     VARIÁVEIS DISCRETAS
+
+Identificador                                 Média   Meia Largura  Mínimo    Máximo   Valor Final
+___________________________________________________________________________________________________
+
+Entity 1.WIP                                5.9789     (Insuf)    .00000     11.000     11.000    
+Resource 4.NumberBusy                       .42127     (Insuf)    .00000     1.0000     1.0000    
+Resource 4.NumberScheduled                  1.0000     (Insuf)    1.0000     1.0000     1.0000    
+Resource 4.Utilization                      .42127     (Insuf)    .00000     1.0000     1.0000    
+Resource 3.NumberBusy                       .32405     (Insuf)    .00000     1.0000     .00000    
+Resource 3.NumberScheduled                  1.0000     (Insuf)    1.0000     1.0000     1.0000    
+Resource 3.Utilization                      .32405     (Insuf)    .00000     1.0000     .00000    
+Resource 2.NumberBusy                       .88134     (Insuf)    .00000     1.0000     1.0000    
+Resource 2.NumberScheduled                  1.0000     (Insuf)    1.0000     1.0000     1.0000    
+Resource 2.Utilization                      .88134     (Insuf)    .00000     1.0000     1.0000    
+Resource 1.NumberBusy                       .97057     (Insuf)    .00000     1.0000     1.0000    
+Resource 1.NumberScheduled                  1.0000     (Insuf)    1.0000     1.0000     1.0000    
+Resource 1.Utilization                      .97057     (Insuf)    .00000     1.0000     1.0000    
+Torneamento.Queue.NumberInQueue             1.7001     (Insuf)    .00000     5.0000     4.0000    
+furacao.Queue.NumberInQueue                 .10188     (Insuf)    .00000     3.0000     .00000    
+Inspecao.Queue.NumberInQueue                .03942     (Insuf)    .00000     1.0000     .00000    
+Desbaste.Queue.NumberInQueue                1.5402     (Insuf)    .00000     5.0000     4.0000    
+
+                                             CONTADORES
+
+Identificador                                    Limite Contagem
+_____________________________________________________________
+
+Reap                                              0  Infinite
+tipo3                                             0  Infinite
+reusinadas                                        9  Infinite
+
+                                             RESULTADOS
+
+Identificador                                   Valor
+_____________________________________________________________
+
+furacao Accum VA Time                       2.5924    
+Desbaste Number In                          56.000    
+Desbaste Number Out                         51.000    
+Inspecao Accum Wait Time                    .31539    
+furacao Number Out                          51.000    
+Desbaste Accum Wait Time                    11.223    
+Torneamento Accum VA Time                   7.6562    
+furacao Number In                           51.000    
+Torneamento Accum Wait Time                 11.643    
+Inspecao Number In                          51.000    
+Inspecao Number Out                         50.000    
+Desbaste Accum VA Time                      6.9677    
+Torneamento Number Out                      35.000    
+Torneamento Number In                       40.000    
+furacao Accum Wait Time                     .81504    
+Inspecao Accum VA Time                      3.3333    
+Entity 1.NumberIn                           52.000    
+Entity 1.NumberOut                          41.000    
+Resource 4.NumberSeized                     51.000    
+Resource 4.ScheduledUtilization             .42127    
+Resource 3.NumberSeized                     51.000    
+Resource 3.ScheduledUtilization             .32405    
+Resource 2.NumberSeized                     52.000    
+Resource 2.ScheduledUtilization             .88134    
+Resource 1.NumberSeized                     36.000    
+Resource 1.ScheduledUtilization             .97057    
+System.NumberOut                            41.000    
+
+Iniciando replicação 4 de 4
+
+                                      ARENA Simulation Results
+                            jczrpereira007@outlook.com - License: STUDENT
+
+                                  Sumário para Replicação 4 de 4
+
+Projeto: Unnamed Project                                             Data da execução :12/10/2024
+Analista: jczrpereira007@outlook.com                                  Data de revisão do modelo:12/10/2024
+
+Replicação terminada no tempo de      : 8.0 Horas 
+Unidade de Tempo Base: Horas
+
+                                           VARIÁVEIS DE REGISTRO
+
+Identificador                                  Média   Meia Largura  Mínimo    Máximo   Observações
+___________________________________________________________________________________________________
+
+Desbaste.VATimePerEntity                    .12738     (Insuf)    .00000     .47740         45    
+Torneamento.VATimePerEntity                 .21959     (Insuf)    .17244     .27305         24    
+furacao.TotalTimePerEntity                  .05838     (Insuf)    .00509     .16620         45    
+furacao.WaitTimePerEntity                   .01108     (Insuf)    .00000     .12509         45    
+Inspecao.TotalTimePerEntity                 .07644     (Insuf)    .06667     .13941         44    
+Inspecao.VATimePerEntity                    .06667     (Insuf)    .06667     .06667         44    
+furacao.VATimePerEntity                     .04730     (Insuf)    .00509     .09141         45    
+Torneamento.TotalTimePerEntity              .28822     (Insuf)    .17244     .55007         24    
+Torneamento.WaitTimePerEntity               .06863     (Insuf)    .00000     .31189         24    
+Inspecao.WaitTimePerEntity                  .00978     (Insuf)    .00000     .07275         44    
+Desbaste.WaitTimePerEntity                  .15264     (Insuf)    .00000     .50596         45    
+Desbaste.TotalTimePerEntity                 .28002     (Insuf)    .00000     .66705         45    
+Entity 1.VATime                             .37695     (Insuf)    .10457     .82756         42    
+Entity 1.NVATime                            .00000     (Insuf)    .00000     .00000         42    
+Entity 1.WaitTime                           .21337     (Insuf)    .00000     .60539         42    
+Entity 1.TranTime                           .00000     (Insuf)    .00000     .00000         42    
+Entity 1.OtherTime                          .00000     (Insuf)    .00000     .00000         42    
+Entity 1.TotalTime                          .59032     (Insuf)    .10504     1.4329         42    
+Torneamento.Queue.WaitingTime               .06589     (Insuf)    .00000     .31189         25    
+furacao.Queue.WaitingTime                   .01108     (Insuf)    .00000     .12509         45    
+Inspecao.Queue.WaitingTime                  .01008     (Insuf)    .00000     .07275         45    
+Desbaste.Queue.WaitingTime                  .15861     (Insuf)    .00000     .50596         46    
+
+                                     VARIÁVEIS DISCRETAS
+
+Identificador                                 Média   Meia Largura  Mínimo    Máximo   Valor Final
+___________________________________________________________________________________________________
+
+Entity 1.WIP                                3.2928     (Insuf)    .00000     7.0000     4.0000    
+Resource 4.NumberBusy                       .36804     (Insuf)    .00000     1.0000     1.0000    
+Resource 4.NumberScheduled                  1.0000     (Insuf)    1.0000     1.0000     1.0000    
+Resource 4.Utilization                      .36804     (Insuf)    .00000     1.0000     1.0000    
+Resource 3.NumberBusy                       .26606     (Insuf)    .00000     1.0000     .00000    
+Resource 3.NumberScheduled                  1.0000     (Insuf)    1.0000     1.0000     1.0000    
+Resource 3.Utilization                      .26606     (Insuf)    .00000     1.0000     .00000    
+Resource 2.NumberBusy                       .73113     (Insuf)    .00000     1.0000     1.0000    
+Resource 2.NumberScheduled                  1.0000     (Insuf)    1.0000     1.0000     1.0000    
+Resource 2.Utilization                      .73113     (Insuf)    .00000     1.0000     1.0000    
+Resource 1.NumberBusy                       .66521     (Insuf)    .00000     1.0000     1.0000    
+Resource 1.NumberScheduled                  1.0000     (Insuf)    1.0000     1.0000     1.0000    
+Resource 1.Utilization                      .66521     (Insuf)    .00000     1.0000     1.0000    
+Torneamento.Queue.NumberInQueue             .20589     (Insuf)    .00000     2.0000     .00000    
+furacao.Queue.NumberInQueue                 .06234     (Insuf)    .00000     3.0000     .00000    
+Inspecao.Queue.NumberInQueue                .05667     (Insuf)    .00000     2.0000     .00000    
+Desbaste.Queue.NumberInQueue                .93752     (Insuf)    .00000     4.0000     1.0000    
+
+                                             CONTADORES
+
+Identificador                                    Limite Contagem
+_____________________________________________________________
+
+Reap                                              0  Infinite
+tipo3                                             0  Infinite
+reusinadas                                        2  Infinite
+
+                                             RESULTADOS
+
+Identificador                                   Valor
+_____________________________________________________________
+
+furacao Accum VA Time                       2.1285    
+Desbaste Number In                          47.000    
+Desbaste Number Out                         45.000    
+Inspecao Accum Wait Time                    .43017    
+furacao Number Out                          45.000    
+Desbaste Accum Wait Time                    6.8689    
+Torneamento Accum VA Time                   5.2701    
+furacao Number In                           45.000    
+Torneamento Accum Wait Time                 1.6471    
+Inspecao Number In                          45.000    
+Inspecao Number Out                         44.000    
+Desbaste Accum VA Time                      5.7319    
+Torneamento Number Out                      24.000    
+Torneamento Number In                       25.000    
+furacao Accum Wait Time                     .49871    
+Inspecao Accum VA Time                      2.9333    
+Entity 1.NumberIn                           46.000    
+Entity 1.NumberOut                          42.000    
+Resource 4.NumberSeized                     45.000    
+Resource 4.ScheduledUtilization             .36804    
+Resource 3.NumberSeized                     45.000    
+Resource 3.ScheduledUtilization             .26606    
+Resource 2.NumberSeized                     46.000    
+Resource 2.ScheduledUtilization             .73113    
+Resource 1.NumberSeized                     25.000    
+Resource 1.ScheduledUtilization             .66521    
+System.NumberOut                            42.000    
+
+
+                                      ARENA Simulation Results
+                            jczrpereira007@outlook.com - License: STUDENT
+
+                               Resumo de resultados para 4 Replicações
+
+Projeto: Unnamed Project                                             Data da execução :12/10/2024
+Analista: jczrpereira007@outlook.com                                  Data de revisão do modelo:12/10/2024
+
+
+                                             RESULTADOS
+
+Identificador                                 Média    Meia-largura Mínima    Maximo # de Replicações
+___________________________________________________________________________________________________
+
+furacao Accum VA Time                       2.2582     .38673     2.0380     2.5924     4
+Desbaste Number In                          50.250     6.4135     47.000     56.000     4
+Desbaste Number Out                         45.500     6.1619     42.000     51.000     4
+Inspecao Accum Wait Time                    .36737     .29783     .14012     .58380     4
+furacao Number Out                          45.250     6.6714     41.000     51.000     4
+Desbaste Accum Wait Time                    7.2807     4.4653     4.5986     11.223     4
+Torneamento Accum VA Time                   6.1310     1.6833     5.2701     7.6562     4
+furacao Number In                           45.500     6.1619     42.000     51.000     4
+Torneamento Accum Wait Time                 5.0266     7.3498     1.6471     11.643     4
+Inspecao Number In                          45.250     6.6714     41.000     51.000     4
+Inspecao Number Out                         44.500     6.5598     40.000     50.000     4
+Desbaste Accum VA Time                      5.7653     1.4268     4.8048     6.9677     4
+Torneamento Number Out                      28.000     7.9017     24.000     35.000     4
+Torneamento Number In                       30.250     10.897     25.000     40.000     4
+furacao Accum Wait Time                     .68511     .33764     .49871     .91570     4
+Inspecao Accum VA Time                      2.9666     .43732     2.6666     3.3333     4
+Entity 1.NumberIn                           46.750     6.0058     43.000     52.000     4
+Entity 1.NumberOut                          38.750     5.7180     34.000     42.000     4
+Resource 4.NumberSeized                     45.250     6.6714     41.000     51.000     4
+Resource 4.ScheduledUtilization             .37422     .05371     .34090     .42127     4
+Resource 3.NumberSeized                     45.500     6.1619     42.000     51.000     4
+Resource 3.ScheduledUtilization             .28418     .04496     .26232     .32405     4
+Resource 2.NumberSeized                     46.500     6.1619     43.000     52.000     4
+Resource 2.ScheduledUtilization             .73896     .17467     .61348     .88134     4
+Resource 1.NumberSeized                     29.000     7.9017     25.000     36.000     4
+Resource 1.ScheduledUtilization             .78010     .21143     .66521     .97057     4
+System.NumberOut                            38.750     5.7180     34.000     42.000     4
+
+Tempo executando a simulação: 0.02 minutos.
+Simulação completada.
+
+RESPOSTAS --------------------------------------------------------------------
+
+1) 
+Desbaste -> .14475; .11777; .22338; .15861; tempo médio total = 0.1611
+torneamento -> .08962; .18292; .34040; .06589; tempo médio total = 0.1697
+furação -> .02081; .01318; .01598; .01108; tempo médio total = 0.01526
+inspeção -> .01327; .00342; .00618; .01008; tempo médio total = 0.0082375
+
+
+2) 5,75 peças foram reusinadas em média
+
+
+3) 3 peças foram para o reaproveitamento
+
+4) 0 peças foram enviadas por falta de espaço

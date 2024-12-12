@@ -1,0 +1,80 @@
+
+                                      ARENA Simulation Results
+                            jczrpereira007@outlook.com - License: STUDENT
+
+                                  Sumário para Replicação 1 de 1
+
+Projeto: Unnamed Project                                             Data da execução :11/ 7/2024
+Analista: jczrpereira007@outlook.com                                  Data de revisão do modelo:11/ 7/2024
+
+Replicação terminada no tempo de      : 8.0 Horas 
+Unidade de Tempo Base: Horas
+
+                                           VARIÁVEIS DE REGISTRO
+
+Identificador                                  Média   Meia Largura  Mínimo    Máximo   Observações
+___________________________________________________________________________________________________
+
+Process 2.VATimePerEntity                   .01667     (Insuf)    .01667     .01667        214    
+Process 1.VATimePerEntity                   .01667     (Insuf)    .01667     .01667        213    
+Process 2.TotalTimePerEntity                .02103     (Insuf)    .01667     .05909        214    
+Process 1.TotalTimePerEntity                .02413     (Insuf)    .01667     .07509        213    
+Process 2.WaitTimePerEntity                 .00436     (Insuf)    .00000     .04242        214    
+Process 1.WaitTimePerEntity                 .00746     (Insuf)    .00000     .05843        213    
+Entity 1.VATime                             .03333     (Insuf)    .03333     .03333        108    
+Entity 1.NVATime                            .00000     (Insuf)    .00000     .00000        108    
+Entity 1.WaitTime                           .01424     (Insuf)    .00000     .08153        108    
+Entity 1.TranTime                           .00000     (Insuf)    .00000     .00000        108    
+Entity 1.OtherTime                          .00000     (Insuf)    .00000     .00000        108    
+Entity 1.TotalTime                          .04757     (Insuf)    .03333     .11486        108    
+Entity 2.VATime                             .03333     (Insuf)    .03333     .03333        105    
+Entity 2.NVATime                            .00000     (Insuf)    .00000     .00000        105    
+Entity 2.WaitTime                           .00931     (Insuf)    .00000     .08595        105    
+Entity 2.TranTime                           .00000     (Insuf)    .00000     .00000        105    
+Entity 2.OtherTime                          .00000     (Insuf)    .00000     .00000        105    
+Entity 2.TotalTime                          .04265     (Insuf)    .03333     .11929        105    
+Process 2.Queue.WaitingTime                 .00436     (Insuf)    .00000     .04242        214    
+Process 1.Queue.WaitingTime                 .00746     (Insuf)    .00000     .05843        214    
+
+                                     VARIÁVEIS DISCRETAS
+
+Identificador                                 Média   Meia Largura  Mínimo    Máximo   Valor Final
+___________________________________________________________________________________________________
+
+Entity 1.WIP                                .64698     (Insuf)    .00000     4.0000     2.0000    
+Entity 2.WIP                                .56450     (Insuf)    .00000     4.0000     1.0000    
+Resource 1.NumberBusy                       .44567     (Insuf)    .00000     1.0000     1.0000    
+Resource 1.NumberScheduled                  1.0000     (Insuf)    1.0000     1.0000     1.0000    
+Resource 1.Utilization                      .44567     (Insuf)    .00000     1.0000     1.0000    
+Resource2.NumberBusy                        .44583     (Insuf)    .00000     1.0000     .00000    
+Resource2.NumberScheduled                   1.0000     (Insuf)    1.0000     1.0000     1.0000    
+Resource2.Utilization                       .44583     (Insuf)    .00000     1.0000     .00000    
+Process 2.Queue.NumberInQueue               .11664     (Insuf)    .00000     3.0000     .00000    
+Process 1.Queue.NumberInQueue               .20334     (Insuf)    .00000     4.0000     2.0000    
+
+                                             RESULTADOS
+
+Identificador                                   Valor
+_____________________________________________________________
+
+Process 2 Number Out                        214.00    
+Process 2 Number In                         214.00    
+Process 1 Accum Wait Time                   1.5889    
+Process 1 Number In                         216.00    
+Process 2 Accum Wait Time                   .93314    
+Process 2 Accum VA Time                     3.5666    
+Process 1 Accum VA Time                     3.5500    
+Process 1 Number Out                        213.00    
+Entity 1.NumberIn                           110.00    
+Entity 1.NumberOut                          108.00    
+Entity 2.NumberIn                           106.00    
+Entity 2.NumberOut                          105.00    
+Resource 1.NumberSeized                     214.00    
+Resource 1.ScheduledUtilization             .44567    
+Resource2.NumberSeized                      214.00    
+Resource2.ScheduledUtilization              .44583    
+System.NumberOut                            213.00    
+
+
+Tempo executando a simulação: 0.28 minutos.
+Simulação completada.

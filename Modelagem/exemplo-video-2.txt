@@ -1,0 +1,57 @@
+
+                                      ARENA Simulation Results
+                         analucia.schiaffino@hotmail.com - License: STUDENT
+
+                                  Sumário para Replicação 1 de 1
+
+Projeto: Unnamed Project                                             Data da execução : 3/ 9/2021
+Analista: analucia.schiaffino@hotmail.com                             Data de revisão do modelo: 3/ 9/2021
+
+Replicação terminada no tempo de      : 480.0 Minutos 
+Unidade de Tempo Base: Minutos
+
+                                           VARIÁVEIS DE REGISTRO
+
+Identificador                                  Média   Meia Largura  Mínimo    Máximo   Observações
+___________________________________________________________________________________________________
+
+Lavacao.TotalTimePerEntity                  73.300     (Insuf)    13.919     129.32         30    
+Lavacao.VATimePerEntity                     15.801     (Insuf)    8.4323     23.368         30    
+Lavacao.WaitTimePerEntity                   57.498     (Insuf)    .00000     113.19         30    
+Carros.VATime                               15.801     (Insuf)    8.4323     23.368         30    
+Carros.NVATime                              .00000     (Insuf)    .00000     .00000         30    
+Carros.WaitTime                             57.498     (Insuf)    .00000     113.19         30    
+Carros.TranTime                             .00000     (Insuf)    .00000     .00000         30    
+Carros.OtherTime                            .00000     (Insuf)    .00000     .00000         30    
+Carros.TotalTime                            73.300     (Insuf)    13.919     129.32         30    
+Lavacao.Queue.WaitingTime                   57.929     (Insuf)    .00000     113.19         31    
+
+                                     VARIÁVEIS DISCRETAS
+
+Identificador                                 Média   Meia Largura  Mínimo    Máximo   Valor Final
+___________________________________________________________________________________________________
+
+Carros.WIP                                  5.1717     (Insuf)    .00000     9.0000     5.0000    
+operador.NumberBusy                         1.0000     (Insuf)    .00000     1.0000     1.0000    
+operador.NumberScheduled                    1.0000     (Insuf)    1.0000     1.0000     1.0000    
+operador.Utilization                        1.0000     (Insuf)    .00000     1.0000     1.0000    
+Lavacao.Queue.NumberInQueue                 4.1717     (Insuf)    .00000     8.0000     4.0000    
+
+                                             RESULTADOS
+
+Identificador                                   Valor
+_____________________________________________________________
+
+Lavacao Number In                           35.000    
+Lavacao Accum VA Time                       474.05    
+Lavacao Accum Wait Time                     1724.9    
+Lavacao Number Out                          30.000    
+Carros.NumberIn                             35.000    
+Carros.NumberOut                            30.000    
+operador.NumberSeized                       31.000    
+operador.ScheduledUtilization               1.0000    
+System.NumberOut                            30.000    
+
+
+Tempo executando a simulação: 0.03 minutos.
+Simulação completada.
