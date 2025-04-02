@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <title>Server-Sent Events</title>
+</head>
+<body>
+    <h1>Mensagens do Servidor:</h1>
+    <div id="mensagens">  BLABLABLA </div>
+
+    <button onclick="envia()">ENVIA</button>
+
+    <script>
+        async function envia()
+        {
+            await fetch('http://localhost:3000/configura');
+        }
+        const eventSource = new EventSource('http://localhost:3000/events');
+
+        eventSource.onmessage = function(event) {
+            const div = document.getElementById('mensagens');
+            div.innerHTML += `<p>${event.data}</p>`;
+        };
+    </script>
+</body>
+</html>

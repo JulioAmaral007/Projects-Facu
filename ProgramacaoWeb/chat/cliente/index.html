@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang=pt-br>
+    <header>
+        <style>
+            textarea { 
+  width: 100%; 
+  margin: 0; 
+  padding: 0; 
+  border-width: 0; 
+  }
+ .container {
+  display: grid;
+  grid-template-areas:
+    "header header"
+    "menu content"
+    "footer footer";
+  grid-template-columns: 1fr 3fr;
+  gap: 1px;
+  background-color: #2196F3;
+  padding: 1px;
+}
+.container > div {
+  background-color: rgba(255, 255, 255, 0.8);
+  padding: 10px;
+}
+.container > div.header {
+  grid-area: header;
+  text-align: center;
+}
+.container > div.menu {
+  grid-area: menu;
+
+}
+.container > div.content {
+  grid-area: content;
+}
+.container > div.footer {
+  grid-area: footer;
+}
+        </style>
+    </header>
+
+    <body>
+        <div class="container">
+            <div class="header"><h2>Bate Papo</h2></div>
+            <div class="menu">
+              <textarea id="users" rows="20" "></textarea>
+            </div>
+            <div class="content">
+                <textarea id="msg" rows="20" "></textarea>
+            </div>
+            <div class="footer">
+                Digite msg:
+                <input type="text" id="mensagem" /> <button onclick="envia()">ENVIA mensagem</button>
+            </div>
+          </div>
+          <input id="nome"> <button onclick="fazLogin()" >Login</button>
+        
+    </div>
+   
+        <script src="reconnecting-websocket.min.js"></script>
+
+        <script src="aplicacao.js"></script>
+
+    </body>
+</html>
